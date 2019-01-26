@@ -8,6 +8,9 @@ spl_autoload_register(function($class){
 Usuarios::verificarLogin();
 unset($_SESSION['error']);
 
+//$resultados = OS::listarOS();
+$resultados2 = OS::listarOS2();
+
 ?>
 
 <!DOCTYPE html>
@@ -19,11 +22,40 @@ unset($_SESSION['error']);
 </head>
 <body>
 	<?php include 'menu.php'; ?>
-	<?php include 'welcome.php'; ?>
-
+	
 	<section class="container">
-		<img class="center" src="img/sysserviçoslogo.png">
+		<?php include 'welcome.php'; ?>
 	</section>
+
+	<!--<section class="container">
+		<img class="center" src="img/sysserviçoslogo.png">
+	</section>-->
+
+	<table class="table-resp">
+		<caption>Ordem de Serviço pendente</caption>
+		<thead>
+			<tr>
+				<th>Nome do cliente</th>
+				<th>Situação</th>
+				<th>Equipamento</th>
+				<th>Valor(R$)</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<?php foreach ($resultados2 as $res): ?>
+				<tr>
+					<td><?= $res->nome; ?></td>
+					<td style="color: red; font-weight: bold;"><?= $res->situacao; ?></td>
+					<td><?= $res->equip; ?></td>
+					<td><?= $res->valor; ?></td>
+					<td><a href="#" class="btn-4">Finalizar</a></td>
+				</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+
+	
 
 </body>
 </html>

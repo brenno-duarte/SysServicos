@@ -7,14 +7,14 @@ spl_autoload_register(function($class){
 
 Usuarios::verificarLogin();
 
-$resultados = Usuarios::listarUsu();
+$resultados = Tecnicos::listarTec();
 
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Usuários</title>
+	<title>Técnicos</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
 	<link rel="stylesheet" type="text/css" href="css/custom.css">
@@ -23,16 +23,15 @@ $resultados = Usuarios::listarUsu();
 	<?php include 'menu.php'; ?>
 
 	<section class="container">
-		<a href="novo_usu.php" class="btn-3">Novo usuário</a>
+		<a href="novo_tec.php" class="btn-3">Novo técnico</a>
 	</section>
 
 	<table class="table-resp">
-		<caption>Usuários</caption>
+		<caption>Técnicos</caption>
 		<thead>
 			<tr>
-				<th>Nome do usuário</th>
+				<th>Nome</th>
 				<th>CPF</th>
-				<th>Telefone</th>
 			</tr>
 		</thead>
 
@@ -42,8 +41,7 @@ $resultados = Usuarios::listarUsu();
 			<tr>
 				<td><?= $res->nome; ?></td>
 				<td><?= $res->cpf; ?></td>
-				<td><?= $res->fone; ?></td>
-				<td><a href="alt_usu.php?id=<?= $res->id; ?>"><img src="img/Modify.png"></a></td>
+				<td><a href="alt_tec.php?id=<?= $res->id; ?>"><img src="img/Modify.png"></a></td>
 				<td><a href="classes/deleteUsu.php?id=<?= $res->id; ?>"><img src="img/Delete.png"></a></td>
 			</tr>
 			<?php endforeach; ?>

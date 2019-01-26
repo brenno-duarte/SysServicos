@@ -36,12 +36,12 @@ $clientes = Search::pesqCli();
 				</thead>
 
 				<tbody>
-					<?php foreach ($clientesDiagnóstico/ as $res): ?>
+					<?php foreach ($clientes as $res): ?>
 						<tr>
 							<td><?= $res->nome; ?></td>
 							<td><?= $res->situacao; ?></td>
 							<td><?= $res->equip; ?></td>
-							<td><a href="#" class="btn-4">Selecionar</a></td>
+							<td><a href="orcamento.php?id=<?= $res->idOS; ?>" class="btn-4">Selecionar</a></td>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>

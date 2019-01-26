@@ -7,18 +7,18 @@ spl_autoload_register(function($class){
 
 Usuarios::verificarLogin();
 
-$clientes = new Clientes();
+$tecnicos = new Tecnicos();
 
-if (isset($_POST['CadastrarCli'])){
-	$clientes->createCli();
-}
+if (isset($_POST['CadastrarTec'])){
+	$tecnicos->createTec();
+} 
 
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Novo Cliente</title>
+	<title>Novo Técnico</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
 	<link rel="stylesheet" type="text/css" href="css/custom.css">
@@ -28,19 +28,16 @@ if (isset($_POST['CadastrarCli'])){
 
 	<section class="container">
 
-		<h1 class="center">Novo Cliente</h1>
+		<h1 class="center">Novo Técnico</h1>
 		<form class="form" method="post">
 			
-			<label for="nome">Nome do cliente</label>
+			<label for="nome">Nome do Técnico</label>
 			<input type="text" id="nome" name="nome" class="input-text" required>
 
 			<label for="cpf">CPF</label>
 			<input type="text" id="cpf" name="cpf" class="input-text" required>
 
-			<label for="fone">Telefone</label>
-			<input type="text" id="fone" name="fone" class="input-text" required>
-
-			<input type="submit" name="CadastrarCli" value="Cadastrar" class="btn-4">
+			<input type="submit" name="CadastrarTec" value="Cadastrar" class="btn-4">
 
 		</form>
 

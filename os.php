@@ -30,22 +30,24 @@ $resultados = OS::listarOS();
 		<caption>Ordem de Serviço</caption>
 		<thead>
 			<tr>
+				<th>ID OS</th>
 				<th>Nome do cliente</th>
 				<th>Situação</th>
 				<th>Equipamento</th>
-				<th>Valor(R$)</th>
+				<th>Data da OS</th>
 			</tr>
 		</thead>
 
 		<tbody>
 			<?php foreach ($resultados as $res): ?>
 			<tr>
+				<td><?= $res->idOS; ?></td>
 				<td><?= $res->nome; ?></td>
 				<td><?= $res->situacao; ?></td>
 				<td><?= $res->equip; ?></td>
-				<td><?= $res->valor; ?></td>
-				<td><a href="alt_os.php?id=<?= $res->id; ?>"><img src="img/Modify.png"></a></td>
-				<td><a href="classes/deleteOS.php?id=<?= $res->id; ?>"><img src="img/Delete.png"></a></td>
+				<td><?= $res->dataOs; ?></td>
+				<td><a href="alt_os.php?id=<?= $res->idOS; ?>"><img src="img/Modify.png"></a></td>
+				<td><a href="classes/deleteOS.php?id=<?= $res->idOS; ?>"><img src="img/Delete.png"></a></td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>

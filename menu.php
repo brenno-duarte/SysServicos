@@ -10,7 +10,8 @@
 		<li><a href="#"><img src="img/New_document.png"> Cadastro</a>
 			<ul>
 				<li><a href="usuarios.php"><img src="img/Male.png"> Usuário</a></li>
-				<li><a href="clientes.php"><img src="img/Person.png"> Cliente</a></li>
+				<li><a href="clientes.php"><img src="img/User_group.png"> Cliente</a></li>
+				<li><a href="tecnicos.php"><img src="img/Person.png"> Técnico</a></li>
 				<li><a href="os.php"><img src="img/Paste.png"> Ordem de serviço</a></li>
 			</ul>
 		</li>

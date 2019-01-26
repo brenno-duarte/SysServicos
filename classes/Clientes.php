@@ -8,7 +8,7 @@ class Clientes {
 
 		$con = DB::Conectar();
 
-		$stmt = $con->prepare("SELECT * FROM tb_clientes");
+		$stmt = $con->prepare("SELECT * FROM tb_clientes ORDER BY nome");
 		$stmt->execute();
 		$resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
 		return $resultados;

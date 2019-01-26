@@ -9,7 +9,7 @@ spl_autoload_register(function($class){
 $id = $_GET['id'];
 
 try {
-	$stmt = DB::prepare("DELETE FROM tb_os WHERE id=:id");
+	$stmt = DB::prepare("DELETE FROM tb_os WHERE idOS=:id");
 	$stmt->bindParam(':id', $id);
 	$r = $stmt->execute();
 

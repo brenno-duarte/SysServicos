@@ -42,7 +42,7 @@ class Usuarios {
 
 	public static function listarUsu() {
 
-		$stmt = DB::prepare("SELECT * FROM tb_usuarios");
+		$stmt = DB::prepare("SELECT * FROM tb_usuarios ORDER BY nome");
 		$stmt->execute();
 		$resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
 		return $resultados;
