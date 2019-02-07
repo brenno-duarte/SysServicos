@@ -1,88 +1,71 @@
 <?php
 
-require_once("DB.php");
+spl_autoload_register(function($class) {
+    include 'classes/' . $class . '.php';
+});
 
-class Clientes {
+class Clientes extends SQL {
 
-	public static function listarCli() {
+    protected $table = 'tb_clientes';
+    private $nome;
+    private $cpf;
+    private $fone;
 
-		$con = DB::Conectar();
+    public function getNome() {
+        return $this->nome;
+    }
 
-		$stmt = $con->prepare("SELECT * FROM tb_clientes ORDER BY nome");
-		$stmt->execute();
-		$resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
-		return $resultados;
-	}
+    public function setNome($nome) {
+        $this->nome = $nome;
+    }
 
-	public static function listarCliAlt() {
+    public function getCpf() {
+        return $this->cpf;
+    }
 
-		$con = DB::Conectar();
+    public function setCpf($cpf) {
+        $this->cpf = $cpf;
+    }
 
-		$id = $_GET['id'];
-		$stmt = $con->prepare("SELECT * FROM tb_clientes WHERE id=:id");
-		$stmt->execute(['id'=>$id]);
-		$resultados = $stmt->fetch(PDO::FETCH_OBJ);
-		return $resultados;
-	}
-	
-	public function createCli() {
+    public function getFone() {
+        return $this->fone;
+    }
 
-		$con = DB::Conectar();
+    public function setFone($fone) {
+        $this->fone = $fone;
+    }
 
-		$nome = isset($_POST['nome']) ? $_POST['nome'] : NULL;
-		$cpf = isset($_POST['cpf']) ? $_POST['cpf'] : NULL;
-		$fone = isset($_POST['fone']) ? $_POST['fone'] : NULL;
+    public function insert() {
 
-		try {
-			$stmt = $con->prepare("INSERT INTO tb_clientes (nome,cpf,fone) VALUES (:nome,:cpf,:fone)");
-			$stmt->bindParam(':nome', $nome);
-			$stmt->bindParam(':cpf', $cpf);
-			$stmt->bindParam(':fone', $fone);
-			$stmt->execute();
+        try {
+            $sql = "INSERT INTO $this->table (nome,cpf,fone) VALUES (:nome,:cpf,:fone)";
+            $stmt = DB::prepare($sql);
+            $stmt->bindValue(':nome', $this->nome);
+            $stmt->bindValue(':cpf', $this->cpf);
+            $stmt->bindValue(':fone', $this->fone);
+            return $stmt->execute();
 
-			header("location: clientes.php");
-		} catch (Exception $e) {
-			echo $e->getMessage();
-		}
-	}
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 
-	public function updateCli() {
+    public function update($id) {
 
-		$con = DB::Conectar();
+        try {
+            $sql = "UPDATE $this->table SET nome = :nome,cpf = :cpf,fone = :fone WHERE id = :id";
+            $stmt = DB::prepare($sql);
+            $stmt->bindParam(':nome', $this->nome);
+            $stmt->bindParam(':cpf', $this->cpf);
+            $stmt->bindParam(':fone', $this->fone);
+            $stmt->bindParam(':id', $id);
+            return $stmt->execute();
 
-		$nome = isset($_POST['nome']) ? $_POST['nome'] : NULL;
-		$cpf = isset($_POST['cpf']) ? $_POST['cpf'] : NULL;
-		$fone = isset($_POST['fone']) ? $_POST['fone'] : NULL;
-		$id = isset($_POST['id']) ? $_POST['id'] : NULL;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
 
-		try {
-			$stmt = $con->prepare("UPDATE tb_clientes SET nome = :nome,cpf = :cpf,fone = :fone WHERE id = :id");
-			$stmt->bindParam(':nome', $nome);
-			$stmt->bindParam(':cpf', $cpf);
-			$stmt->bindParam(':fone', $fone);
-			$stmt->bindParam(':id', $id);
-			$stmt->execute();
-
-			header("location: clientes.php");
-		} catch (Exception $e) {
-			echo $e->getMessage();
-		}
-	}
-
-	public function deleteCli() {
-		$con = DB::Conectar();
-
-		$id = $_GET['id'];
-
-		try {
-			$stmt = $con->prepare("DELETE FROM tb_clientes WHERE id=:id");
-			$stmt->execute(['id'=>$id]);
-
-			header("location: clientes.php");
-		} catch (Exception $e) {
-			echo $e->getMessage();
-		}
-	}
 }
 
 ?>

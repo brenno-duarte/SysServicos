@@ -1,123 +1,122 @@
 <?php
 
-spl_autoload_register(function($class){
-	include 'classes/' . $class . '.php';
-}); 
+spl_autoload_register(function($class) {
+    include 'classes/' . $class . '.php';
+});
 
-class Usuarios {
+class Usuarios extends SQL {
 
-	public function validarLogin() {
+    protected $table = 'tb_usuarios';
+    private $nome;
+    private $cpf;
+    private $fone;
+    private $login;
+    private $senha;
 
-		$login = $_POST['login'];
-		$senha = $_POST['senha'];
+    public function getNome() {
+        return $this->nome;
+    }
 
-		try {
-			$sql = "SELECT * FROM tb_usuarios WHERE login=:login AND senha=:senha";
-			$stmt = DB::prepare($sql);
-			$stmt->execute([
-				':login' => $login,
-				':senha' => $senha
-			]);
-			$valor = $stmt->rowCount();
+    public function setNome($nome) {
+        $this->nome = $nome;
+    }
 
-			if ($valor > 0) {
-				$_SESSION['login'] = $_POST['login'];
-				header("location: painel.php");
-			} else {
-				$_SESSION['error'] = "Login e/ou senha inválido";
-				header("location: index.php");
-			}
-			
-		} catch (Exception $e) {
-			echo $e->getMessage();
-		}
-	}
+    public function getCpf() {
+        return $this->cpf;
+    }
 
-	public function verificarLogin()
-	{
-		if (!isset($_SESSION['login'])) {
-			header("location: index.php");
-		}
-	}
+    public function setCpf($cpf) {
+        $this->cpf = $cpf;
+    }
 
-	public static function listarUsu() {
+    public function getFone() {
+        return $this->fone;
+    }
 
-		$stmt = DB::prepare("SELECT * FROM tb_usuarios ORDER BY nome");
-		$stmt->execute();
-		$resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
-		return $resultados;
-	}
+    public function setFone($fone) {
+        $this->fone = $fone;
+    }
 
-	public static function listarUsuAlt() {
+    public function getLogin() {
+        return $this->login;
+    }
 
-		$id = $_GET['id'];
-		$stmt = DB::prepare("SELECT * FROM tb_usuarios WHERE id=:id");
-		$stmt->execute(['id'=>$id]);
-		$resultados = $stmt->fetch(PDO::FETCH_OBJ);
-		return $resultados;
-	}
+    public function setLogin($login) {
+        $this->login = $login;
+    }
 
-	public function createUsu() {
+    public function getSenha() {
+        return $this->senha;
+    }
 
-		$nome = isset($_POST['nome'])? $_POST['nome'] : NULL;
-		$cpf = isset($_POST['cpf'])? $_POST['cpf'] : NULL;
-		$fone = isset($_POST['fone'])? $_POST['fone'] : NULL;
-		$login = isset($_POST['login'])? $_POST['login'] : NULL;
-		$senha = isset($_POST['senha'])? $_POST['senha'] : NULL;
+    public function setSenha($senha) {
+        $this->senha = $senha;
+    }
 
-		
-		if ($_POST['senha'] == $_POST['confSenha']) {
-			try {
-				$stmt = DB::prepare("INSERT INTO tb_usuarios (nome,cpf,fone,login,senha) VALUES (:nome,:cpf,:fone,:login,:senha)");
+    public function validarLogin($login, $senha) {
 
-				$stmt->bindParam(':nome', $nome);
-				$stmt->bindParam(':cpf', $cpf);
-				$stmt->bindParam(':fone', $fone);
-				$stmt->bindParam(':login', $login);
-				$stmt->bindParam(':senha', $senha);
-				$stmt->execute();
+        try {
+            $sql = "SELECT * FROM $this->table WHERE login=:login AND senha=:senha";
+            $stmt = DB::prepare($sql);
+            $stmt->execute([
+                ':login' => $login,
+                ':senha' => $senha
+            ]);
+            $valor = $stmt->rowCount();
 
-				header("location: usuarios.php");
-			} catch (Exception $e) {
-				echo $e->getMessage();
-			}
-		} else {
-			echo "senhas não batem";
-		}
-		
-	}
+            if ($valor > 0) {
+                $_SESSION['login'] = $_POST['login'];
+                header("location: painel.php");
+            } else {
+                $_SESSION['error'] = "Login e/ou senha inválido";
+                header("location: index.php");
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
 
-	public function updateUsu() {
+    public function verificarLogin() {
+        if (!isset($_SESSION['login'])) {
+            header("location: index.php");
+        }
+    }
 
-		$nome = isset($_POST['nome'])? $_POST['nome'] : NULL;
-		$cpf = isset($_POST['cpf'])? $_POST['cpf'] : NULL;
-		$fone = isset($_POST['fone'])? $_POST['fone'] : NULL;
-		$login = isset($_POST['login'])? $_POST['login'] : NULL;
-		$senha = isset($_POST['senha'])? $_POST['senha'] : NULL;
-		$id = isset($_POST['id'])? $_POST['id'] : NULL;
+    public function insert() {
 
-		try {
-			$stmt = DB::prepare("
-				UPDATE tb_usuarios SET 
-				nome = :nome,
-				cpf = :cpf,
-				fone = :fone,
-				login = :login,
-				senha = :senha WHERE id=:id");
+        try {
+            $sql = "INSERT INTO $this->table (nome,cpf,fone,login,senha) VALUES (:nome,:cpf,:fone,:login,:senha)";
+            $stmt = DB::prepare($sql);
+            $stmt->bindParam(':nome', $this->nome);
+            $stmt->bindParam(':cpf', $this->cpf);
+            $stmt->bindParam(':fone', $this->fone);
+            $stmt->bindParam(':login', $this->login);
+            $stmt->bindParam(':senha', $this->senha);
+            $stmt->execute();
 
-			$stmt->bindParam(':nome', $nome);
-			$stmt->bindParam(':cpf', $cpf);
-			$stmt->bindParam(':fone', $fone);
-			$stmt->bindParam(':login', $login);
-			$stmt->bindParam(':senha', $senha);
-			$stmt->bindParam(':id', $id);
-			$stmt->execute();
-			
-			header("location: usuarios.php");
-		} catch (Exception $e) {
-			echo $e->getMessage();
-		}
-	}
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function update($id) {
+
+        try {
+            $sql = "UPDATE $this->table SET nome = :nome,cpf = :cpf,fone = :fone,login = :login,senha = :senha WHERE id=:id";
+            $stmt = DB::prepare($sql);
+            $stmt->bindParam(':nome', $this->nome);
+            $stmt->bindParam(':cpf', $this->cpf);
+            $stmt->bindParam(':fone', $this->fone);
+            $stmt->bindParam(':login', $this->login);
+            $stmt->bindParam(':senha', $this->senha);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
 }
 
 ?>

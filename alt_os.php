@@ -1,66 +1,78 @@
 <?php
 session_start();
 
-spl_autoload_register(function($class){
-	include 'classes/' . $class . '.php';
+spl_autoload_register(function($class) {
+    include 'classes/' . $class . '.php';
 });
 
 Usuarios::verificarLogin();
-$resultados = OS::listarOSAlt();
-$resultados2 = Clientes::listarCli();
+
+$clientes = new Clientes();
+$tec = new Tecnicos();
 
 $os = new OS();
+$id = $_GET['id'];
 
-if (isset($_POST['AlterarOS'])){
-	$os->updateOS();
-}
+$resultados = $os->find($id);
 
 ?>
 
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Alterar OS</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-	<link rel="stylesheet" type="text/css" href="css/custom.css">
-</head>
-<body>
-	<?php include 'menu.php'; ?>
+    <head>
+        <title>Alterar OS</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
+        <link rel="stylesheet" type="text/css" href="css/custom.css">
+    </head>
+    <body>
+        
+        <?php
+        
+        //
+        
+        ?>
+        
+        <?php include 'menu.php'; ?>
 
-	<section class="container">
+        <section class="container">
 
-		<h1 class="center">Alterar Ordem de Serviço</h1>
-		<form class="form" method="post">
-			
-			<label for="nome">Nome do cliente</label>
-			<select name="nome" class="input-text">
-				<option selected disabled>--Selecione o nome do cliente--</option>
-				<?php foreach ($resultados2 as $res): ?>
-				<option value="<?= $res->id; ?>"><?= $res->nome; ?></option>
-				<?php endforeach; ?>
-			</select>
+            <h1 class="center">Alterar Ordem de Serviço</h1>
+            <form class="form" method="post">
 
-			<input type="hidden" name="situacao" value="Aguardando diagnóstico" class="input-text" required>
+                <label for="nome">Nome do cliente</label>
+                <select name="nome" class="input-text">
+                    <option selected disabled>--Selecione o nome do cliente--</option>
+                    <?php foreach ($clientes->findAll() as $res): ?>
+                        <option value="<?= $res->id; ?>"><?= $res->nome; ?></option>
+                    <?php endforeach; ?>
+                </select>
 
-			<label for="equip">Equipamento</label>
-			<input type="text" id="equip" name="equip" class="input-text" value="<?= $resultados->equip; ?>" required>
+                <input type="hidden" name="situacao" value="Aguardando diagnóstico" class="input-text" required>
 
-			<label for="defeito">Defeito</label>
-			<input type="text" id="defeito" name="defeito" class="input-text" value="<?= $resultados->defeito; ?>" required>
+                <label for="equip">Equipamento</label>
+                <input type="text" id="equip" name="equip" class="input-text" value="<?= $resultados->equip; ?>" required>
 
-			<label for="tecnico">Técnico</label>
-			<input type="text" id="tecnico" name="tecnico" class="input-text" value="<?= $resultados->tecnico; ?>" required>
+                <label for="defeito">Defeito</label>
+                <input type="text" id="defeito" name="defeito" class="input-text" value="<?= $resultados->defeito; ?>" required>
 
-			<label for="valor">Valor(R$)</label>
-			<input type="text" id="valor" name="valor" class="input-text" value="<?= $resultados->valor; ?>" required>
+                <label>Técnico</label>
+                <select name="tecnico" class="input-text">
+                    <option selected disabled>--Selecione o técnico--</option>
+                    <?php foreach ($tec->findAll() as $res): ?>
+                        <option value="<?= $res->id; ?>"><?= $res->nome; ?></option>
+                    <?php endforeach; ?>
+                </select>
 
-			<input type="hidden" name="id" class="input-text" value="<?= $resultados->id; ?>" readonly>
+                <label for="valor">Valor(R$)</label>
+                <input type="text" id="valor" name="valor" class="input-text" value="<?= $resultados->valor; ?>" required>
 
-			<input type="submit" name="AlterarOS" value="Alterar" class="btn-4">
+                <input type="hidden" name="id" class="input-text" value="<?= $resultados->id; ?>" readonly>
 
-		</form>
+                <input type="submit" name="AlterarOS" value="Alterar" class="btn-4">
 
-	</section>
-</body>
+            </form>
+
+        </section>
+    </body>
 </html>

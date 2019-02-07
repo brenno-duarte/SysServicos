@@ -1,68 +1,60 @@
 <?php
 
-spl_autoload_register(function($class){
-	include 'classes/' . $class . '.php';
-}); 
+spl_autoload_register(function($class) {
+    include 'classes/' . $class . '.php';
+});
 
-class Tecnicos {
+class Tecnicos extends SQL {
+    
+    protected $table = 'tb_tecnicos';
+    private $nome;
+    private $cpf;
+    
+    public function getNome() {
+        return $this->nome;
+    }
 
-	public static function listarTec() {
+    public function setNome($nome) {
+        $this->nome = $nome;
+    }
 
-		$stmt = DB::prepare("SELECT * FROM tb_tecnicos ORDER BY nome");
-		$stmt->execute();
-		$resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
-		return $resultados;
-	}
+    public function getCpf() {
+        return $this->cpf;
+    }
 
-	public static function listarTecAlt() {
+    public function setCpf($cpf) {
+        $this->cpf = $cpf;
+    }
 
-		$id = $_GET['id'];
-		$stmt = DB::prepare("SELECT * FROM tb_tecnicos WHERE id=:id");
-		$stmt->execute(['id'=>$id]);
-		$resultados = $stmt->fetch(PDO::FETCH_OBJ);
-		return $resultados;
-	}
+    public function insert() {
 
-	public function createTec() {
+        try {
+            $sql = "INSERT INTO $this->table (nome,cpf) VALUES (:nome,:cpf)";
+            $stmt = DB::prepare($sql);
+            $stmt->bindParam(':nome', $this->nome);
+            $stmt->bindParam(':cpf', $this->cpf);
+            return $stmt->execute();
 
-		$nome = isset($_POST['nome'])? $_POST['nome'] : NULL;
-		$cpf = isset($_POST['cpf'])? $_POST['cpf'] : NULL;
-		
-		try {
-			$stmt = DB::prepare("INSERT INTO tb_tecnicos (nome,cpf) VALUES (:nome,:cpf)");
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
 
-			$stmt->bindParam(':nome', $nome);
-			$stmt->bindParam(':cpf', $cpf);
-			$stmt->execute();
+    public function update($id) {
 
-			header("location: tecnicos.php");
-		} catch (Exception $e) {
-			echo $e->getMessage();
-		}		
-	}
+        try {
+            $sql = "UPDATE $this->table SET nome = :nome,cpf = :cpf WHERE id=:id";
+            $stmt = DB::prepare($sql);
+            $stmt->bindParam(':nome', $this->nome);
+            $stmt->bindParam(':cpf', $this->cpf);
+            $stmt->bindParam(':id', $id);
+            return $stmt->execute();
 
-	public function updateTec() {
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
 
-		$nome = isset($_POST['nome'])? $_POST['nome'] : NULL;
-		$cpf = isset($_POST['cpf'])? $_POST['cpf'] : NULL;
-		$id = isset($_POST['id'])? $_POST['id'] : NULL;
-
-		try {
-			$stmt = DB::prepare("
-				UPDATE tb_tecnicos SET 
-				nome = :nome,
-				cpf = :cpf WHERE id=:id");
-
-			$stmt->bindParam(':nome', $nome);
-			$stmt->bindParam(':cpf', $cpf);
-			$stmt->bindParam(':id', $id);
-			$stmt->execute();
-			
-			header("location: tecnicos.php");
-		} catch (Exception $e) {
-			echo $e->getMessage();
-		}
-	}
 }
 
 ?>

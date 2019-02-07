@@ -1,58 +1,80 @@
 <?php
 session_start();
 
-spl_autoload_register(function($class){
-	include 'classes/' . $class . '.php';
+spl_autoload_register(function($class) {
+    include 'classes/' . $class . '.php';
 });
 
 Usuarios::verificarLogin();
-
-$usuarios = new Usuarios();
-
-if (isset($_POST['CadastrarUsu'])){
-	$usuarios->createUsu();
-} 
-
 ?>
 
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Novo Usuário</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-	<link rel="stylesheet" type="text/css" href="css/custom.css">
-</head>
-<body>
-	<?php include 'menu.php'; ?>
+    <head>
+        <title>Novo Usuário</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
+        <link rel="stylesheet" type="text/css" href="css/custom.css">
+    </head>
+    <body>
 
-	<section class="container">
+        <?php
+        $usuarios = new Usuarios();
 
-		<h1 class="center">Novo Usuário</h1>
-		<form class="form" method="post">
-			
-			<label for="nome">Nome do usuário</label>
-			<input type="text" id="nome" name="nome" class="input-text" required>
+        $cpf = filter_input(INPUT_POST, 'cpf');
+        $fone = filter_input(INPUT_POST, 'fone');
+        $login = filter_input(INPUT_POST, 'login');
+        $nome = filter_input(INPUT_POST, 'nome');
+        $senha = filter_input(INPUT_POST, 'senha');
+        $confSenha = filter_input(INPUT_POST, 'confSenha');
 
-			<label for="cpf">CPF</label>
-			<input type="text" id="cpf" name="cpf" class="input-text" required>
+        if (isset($_POST['cadastrar'])) {
 
-			<label for="fone">Telefone</label>
-			<input type="text" id="fone" name="fone" class="input-text" required>
+            if ($senha != $confSenha) {
+                echo 'Senhas não batem';
+            } else {
+                $usuarios->setCpf($cpf);
+                $usuarios->setFone($fone);
+                $usuarios->setLogin($login);
+                $usuarios->setNome($nome);
+                $usuarios->setSenha($senha);
 
-			<label for="login">Login</label>
-			<input type="text" id="login" name="login" class="input-text" required>
+                if ($usuarios->insert()) {
+                    echo 'Cadastrado com sucesso!';
+                }
+            }
+        }
+        ?>
 
-			<label for="senha">Senha</label>
-			<input type="password" id="senha" name="senha" class="input-text" required>
+        <?php include 'menu.php'; ?>
 
-			<label for="confSenha">Confirmar senha</label>
-			<input type="password" id="confSenha" name="confSenha" class="input-text" required>
+        <section class="container">
 
-			<input type="submit" name="CadastrarUsu" value="Cadastrar" class="btn-4">
+            <h1 class="center">Novo Usuário</h1>
+            <form class="form" method="post">
 
-		</form>
+                <label for="nome">Nome do usuário</label>
+                <input type="text" id="nome" name="nome" class="input-text" required>
 
-	</section>
-</body>
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" name="cpf" class="input-text" required>
+
+                <label for="fone">Telefone</label>
+                <input type="text" id="fone" name="fone" class="input-text" required>
+
+                <label for="login">Login</label>
+                <input type="text" id="login" name="login" class="input-text" required>
+
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" class="input-text" required>
+
+                <label for="confSenha">Confirmar senha</label>
+                <input type="password" id="confSenha" name="confSenha" class="input-text" required>
+
+                <input type="submit" name="cadastrar" value="Cadastrar" class="btn-4">
+
+            </form>
+
+        </section>
+    </body>
 </html>

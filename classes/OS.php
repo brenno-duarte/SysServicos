@@ -1,136 +1,171 @@
 <?php
 
-spl_autoload_register(function($class){
-	include 'classes/' . $class . '.php';
+spl_autoload_register(function($class) {
+    include 'classes/' . $class . '.php';
 });
 
-class OS {
+class OS extends SQL {
 
-	public static function listarOS() {
+    protected $table = 'tb_os';
+    private $idCli;
+    private $situacao;
+    private $equip;
+    private $defeito;
+    private $tecnico;
 
-		$stmt = DB::prepare("SELECT * FROM tb_clientes a INNER JOIN tb_os b ON a.id=b.idCli ORDER BY a.nome");
-		$stmt->execute();
-		$resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
-		return $resultados;
-	}
+    public function getIdCli() {
+        return $this->idCli;
+    }
 
-	public static function listarOS2() {
+    public function setIdCli($idCli) {
+        $this->idCli = $idCli;
+    }
 
-		$stmt = DB::prepare("SELECT * FROM tb_os b INNER JOIN tb_clientes a ON a.id=b.idCli WHERE situacao LIKE 'Aguardando autorização' ORDER BY a.nome");
-		$stmt->execute();
-		$resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
-		return $resultados;
-	}
+    public function getSituacao() {
+        return $this->situacao;
+    }
 
-	public static function listarOSAlt() {
+    public function setSituacao($situacao) {
+        $this->situacao = $situacao;
+    }
 
-		$id = $_GET['id'];
-		$stmt = DB::prepare("SELECT * FROM tb_os WHERE idOS=:id");
-		$stmt->execute(['id'=>$id]);
-		$resultados = $stmt->fetch(PDO::FETCH_OBJ);
-		return $resultados;
-	}
+    public function getEquip() {
+        return $this->equip;
+    }
 
-	public static function listarOSOrc() {
+    public function setEquip($equip) {
+        $this->equip = $equip;
+    }
 
-		$id = $_GET['id'];
-		$stmt = DB::prepare("SELECT * FROM tb_os a INNER JOIN tb_clientes b ON b.id=a.idCli WHERE idOS=:id ORDER BY b.nome");
-		$stmt->execute(['id'=>$id]);
-		$resultados = $stmt->fetch(PDO::FETCH_OBJ);
-		return $resultados;
-	}
+    public function getDefeito() {
+        return $this->defeito;
+    }
 
-	public static function orcamento()
-	{
-		$id = isset($_POST['id']) ? $_POST['id'] : null;
-		$valorp = isset($_POST['valorp']) ? $_POST['valorp'] : null;
-		$valors = isset($_POST['valors']) ? $_POST['valors'] : null;
-		$desconto = isset($_POST['desconto']) ? $_POST['desconto'] : null;
+    public function setDefeito($defeito) {
+        $this->defeito = $defeito;
+    }
 
-		$total = $valorp + $valors;
-		$totalD = ($valorp + $valors) - $desconto;
+    public function getTecnico() {
+        return $this->tecnico;
+    }
 
-		if (isset($totalD)) {
-			try {
-				$stmt = DB::prepare("UPDATE tb_os SET valor=?,situacao='Aguardando autorização' WHERE idOS=?");
+    public function setTecnico($tecnico) {
+        $this->tecnico = $tecnico;
+    }
 
-				$stmt->bindParam(1, $totalD);
-				$stmt->bindParam(2, $id);
-				$stmt->execute();
+    public static function listarOS() {
 
-				header("location: os.php");
-			} catch (Exception $e) {
-				echo $e->getMessage();			
-			}
+        $stmt = DB::prepare("SELECT * FROM tb_clientes a INNER JOIN tb_os b ON a.id=b.idCli ORDER BY a.nome");
+        $stmt->execute();
+        $resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
+        return $resultados;
+    }
 
-		} elseif (isset($total)) {
-			try {
-				$stmt = DB::prepare("UPDATE tb_os SET valor=? WHERE idOS=?");
+    public static function listarOS2() {
 
-				$stmt->bindParam(1, $total);
-				$stmt->bindParam(2, $id);
-				$stmt->execute();
+        $stmt = DB::prepare("SELECT * FROM tb_os b INNER JOIN tb_clientes a ON a.id=b.idCli WHERE situacao LIKE 'Aguardando autorização' ORDER BY a.nome");
+        $stmt->execute();
+        $resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
+        return $resultados;
+    }
 
-				header("location: os.php");
-			} catch (Exception $e) {
-				echo $e->getMessage();			
-			}
-		}
-	}
-	
-	public function createOS()
-	{
+    public static function listarOS3() {
 
-		$nome = isset($_POST['nome']) ? $_POST['nome'] : NULL;
-		$situacao = isset($_POST['situacao']) ? $_POST['situacao'] : NULL;
-		$equip = isset($_POST['equip']) ? $_POST['equip'] : NULL;
-		$defeito = isset($_POST['defeito']) ? $_POST['defeito'] : NULL;
-		$tecnico = isset($_POST['tecnico']) ? $_POST['tecnico'] : NULL;
+        $stmt = DB::prepare("SELECT * FROM tb_os_final a INNER JOIN tb_os b ON a.idOS=b.id");
+        $stmt->execute();
+        $resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
+        return $resultados;
+    }
 
-		try {
-			$stmt = DB::prepare("INSERT INTO tb_os (idCli, situacao,equip,defeito,tecnico) VALUES (?,?,?,?,?)");
-			
-			$stmt->bindParam(1, $nome);
-			$stmt->bindParam(2, $situacao);
-			$stmt->bindParam(3, $equip);
-			$stmt->bindParam(4, $defeito);
-			$stmt->bindParam(5, $tecnico);
-			$stmt->execute();
+    public static function listarOSOrc() {
 
-			header("location: os.php");
-		} catch (Exception $e) {
-			echo $e->getMessage();			
-		}
-	}
+        $id = $_GET['id'];
+        $stmt = DB::prepare("SELECT * FROM tb_os a INNER JOIN tb_clientes b ON b.id=a.idCli WHERE idOS=:id ORDER BY b.nome");
+        $stmt->execute(['id' => $id]);
+        $resultados = $stmt->fetch(PDO::FETCH_OBJ);
+        return $resultados;
+    }
 
-	public function updateOS()
-	{
+    public static function orcamento() {
+        $id = isset($_POST['id']) ? $_POST['id'] : null;
+        $valorp = isset($_POST['valorp']) ? $_POST['valorp'] : null;
+        $valors = isset($_POST['valors']) ? $_POST['valors'] : null;
+        $desconto = isset($_POST['desconto']) ? $_POST['desconto'] : null;
 
-		$nome = isset($_POST['nome']) ? $_POST['nome'] : NULL;
-		$situacao = isset($_POST['situacao']) ? $_POST['situacao'] : NULL;
-		$equip = isset($_POST['equip']) ? $_POST['equip'] : NULL;
-		$defeito = isset($_POST['defeito']) ? $_POST['defeito'] : NULL;
-		$tecnico = isset($_POST['tecnico']) ? $_POST['tecnico'] : NULL;
-		$valor = isset($_POST['valor']) ? $_POST['valor'] : NULL;
-		$id = isset($_POST['id']) ? $_POST['id'] : NULL;
+        $total = $valorp + $valors;
+        $totalD = ($valorp + $valors) - $desconto;
 
-		try {
-			$stmt = DB::prepare("UPDATE tb_os SET idCli=?,situacao=?,equip=?,defeito=?,tecnico=?,valor=? WHERE id=?");
-			
-			$stmt->bindParam(1, $nome);
-			$stmt->bindParam(2, $situacao);
-			$stmt->bindParam(3, $equip);
-			$stmt->bindParam(4, $defeito);
-			$stmt->bindParam(5, $tecnico);
-			$stmt->bindParam(6, $valor);
-			$stmt->bindParam(7, $id);
-			$stmt->execute();
+        if (isset($totalD)) {
+            try {
+                $stmt = DB::prepare("UPDATE tb_os SET valor=?,situacao='Aguardando autorização' WHERE idOS=?");
 
-			header("location: os.php");
-		} catch (Exception $e) {
-			echo $e->getMessage();			
-		}
-	}
+                $stmt->bindParam(1, $totalD);
+                $stmt->bindParam(2, $id);
+                $stmt->execute();
+
+                header("location: painel.php");
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        } elseif (isset($total)) {
+            try {
+                $stmt = DB::prepare("UPDATE tb_os SET valor=? WHERE idOS=?");
+
+                $stmt->bindParam(1, $total);
+                $stmt->bindParam(2, $id);
+                $stmt->execute();
+
+                header("location: os.php");
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        }
+    }
+
+    public function insert() {
+
+        $nome = isset($_POST['nome']) ? $_POST['nome'] : NULL;
+        $situacao = isset($_POST['situacao']) ? $_POST['situacao'] : NULL;
+        $equip = isset($_POST['equip']) ? $_POST['equip'] : NULL;
+        $defeito = isset($_POST['defeito']) ? $_POST['defeito'] : NULL;
+        $tecnico = isset($_POST['tecnico']) ? $_POST['tecnico'] : NULL;
+
+        try {
+            $stmt = DB::prepare("INSERT INTO tb_os (idCli, situacao,equip,defeito,tecnico) VALUES (?,?,?,?,?)");
+
+            $stmt->bindParam(1, $nome);
+            $stmt->bindParam(2, $situacao);
+            $stmt->bindParam(3, $equip);
+            $stmt->bindParam(4, $defeito);
+            $stmt->bindParam(5, $tecnico);
+            $stmt->execute();
+
+            header("location: os.php");
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function update($id) {
+
+        try {
+            $sql = "UPDATE $this->table SET idCli=?,situacao=?,equip=?,defeito=?,tecnico=?,valor=? WHERE id=?";
+            $stmt = DB::prepare($sql);
+
+            $stmt->bindParam(1, $this->nome);
+            $stmt->bindParam(2, $this->situacao);
+            $stmt->bindParam(3, $this->equip);
+            $stmt->bindParam(4, $this->defeito);
+            $stmt->bindParam(5, $this->tecnico);
+            $stmt->bindParam(6, $this->valor);
+            $stmt->bindParam(7, $id);
+            $stmt->execute();
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
 }
 
 ?>

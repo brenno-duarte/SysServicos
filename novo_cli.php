@@ -1,49 +1,62 @@
 <?php
 session_start();
 
-spl_autoload_register(function($class){
-	include 'classes/' . $class . '.php';
+ob_start();
+
+spl_autoload_register(function($class) {
+    include 'classes/' . $class . '.php';
 });
 
 Usuarios::verificarLogin();
-
-$clientes = new Clientes();
-
-if (isset($_POST['CadastrarCli'])){
-	$clientes->createCli();
-}
-
 ?>
 
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Novo Cliente</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-	<link rel="stylesheet" type="text/css" href="css/custom.css">
-</head>
-<body>
-	<?php include 'menu.php'; ?>
+    <head>
+        <title>Novo Cliente</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
+        <link rel="stylesheet" type="text/css" href="css/custom.css">
+    </head>
+    <body>
 
-	<section class="container">
+        <?php
+        
+        $clientes = new Clientes();
 
-		<h1 class="center">Novo Cliente</h1>
-		<form class="form" method="post">
-			
-			<label for="nome">Nome do cliente</label>
-			<input type="text" id="nome" name="nome" class="input-text" required>
+        if (isset($_POST['cadastrar'])) {
 
-			<label for="cpf">CPF</label>
-			<input type="text" id="cpf" name="cpf" class="input-text" required>
+            $clientes->setNome($_POST['nome']);
+            $clientes->setCpf($_POST['cpf']);
+            $clientes->setFone($_POST['fone']);
 
-			<label for="fone">Telefone</label>
-			<input type="text" id="fone" name="fone" class="input-text" required>
+            if ($clientes->insert()) {
+                echo 'Cadastrado com sucesso';
+            }
+        }
+        
+        ?>
 
-			<input type="submit" name="CadastrarCli" value="Cadastrar" class="btn-4">
+        <?php include 'menu.php'; ?>
 
-		</form>
+        <section class="container">
 
-	</section>
-</body>
+            <h1 class="center">Novo Cliente</h1>
+            <form class="form" method="post">
+
+                <label for="nome">Nome do cliente</label>
+                <input type="text" id="nome" name="nome" class="input-text" required>
+
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" name="cpf" class="input-text" required>
+
+                <label for="fone">Telefone</label>
+                <input type="text" id="fone" name="fone" class="input-text" required>
+
+                <input type="submit" name="cadastrar" value="Cadastrar" class="btn-4">
+
+            </form>
+
+        </section>
+    </body>
 </html>
