@@ -1,21 +1,15 @@
-<?php  
+<?php
 session_start();
 
-spl_autoload_register(function($class){
+spl_autoload_register(function($class) {
     include 'classes/' . $class . '.php';
 });
 
 $clientes = Search::pesqCli();
 
 ?>
-<!doctype html>
-<html>
-<head>
-    <title>Garantia/Saída de equipamento</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-</head>
 
+<?php include 'header.php'; ?>
 <body>
 
     <?php include 'menu.php'; ?>
@@ -46,17 +40,17 @@ $clientes = Search::pesqCli();
                 </tbody>
             </table>
 
-            <?php else: ?>
+        <?php else: ?>
 
-                <span class="table-resp" style="font-size: 25px;">Nenhum resultado encontrado</span>
+            <span class="table-resp" style="font-size: 25px;">Nenhum resultado encontrado</span>
 
-                <section class="container">
-                    <a href="pesq.php" class="btn-1">Voltar</a>
-                </section>
+            <section class="container">
+                <a href="pesq.php" class="btn-1">Voltar</a>
+            </section>
 
-            <?php endif; ?>
+        <?php endif; ?>
 
-        </section>
+    </section>
 
-    </body>
-    </html>
+</body>
+</html>

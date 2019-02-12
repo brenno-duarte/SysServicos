@@ -9,14 +9,7 @@ Usuarios::verificarLogin();
 
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Novo Técnico</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-        <link rel="stylesheet" type="text/css" href="css/custom.css">
-    </head>
+<?php include 'header.php'; ?>
     <body>
         
         <?php
@@ -31,7 +24,7 @@ Usuarios::verificarLogin();
             $tec->setCpf($cpf);
             
             if ($tec->insert()) {
-                echo 'Técnico cadastrado com sucesso';
+                header('location: tecnicos.php');
             }
         }
         

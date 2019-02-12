@@ -8,30 +8,28 @@ spl_autoload_register(function($class) {
 });
 
 Usuarios::verificarLogin();
+
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Novo Cliente</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-        <link rel="stylesheet" type="text/css" href="css/custom.css">
-    </head>
+<?php include 'header.php'; ?>
     <body>
 
         <?php
         
         $clientes = new Clientes();
+        
+        $nome = filter_input(INPUT_POST, 'nome');
+        $cpf = filter_input(INPUT_POST, 'cpf');
+        $fone = filter_input(INPUT_POST, 'fone');
 
         if (isset($_POST['cadastrar'])) {
 
-            $clientes->setNome($_POST['nome']);
-            $clientes->setCpf($_POST['cpf']);
-            $clientes->setFone($_POST['fone']);
+            $clientes->setNome($nome);
+            $clientes->setCpf($cpf);
+            $clientes->setFone($fone);
 
             if ($clientes->insert()) {
-                echo 'Cadastrado com sucesso';
+                header('location: clientes.php');
             }
         }
         

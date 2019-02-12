@@ -8,21 +8,23 @@ spl_autoload_register(function($class) {
 Usuarios::verificarLogin();
 
 $resultados = OS::listarOS();
+
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Ordem de serviço</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-        <link rel="stylesheet" type="text/css" href="css/custom.css">
-    </head>
+<?php include 'header.php'; ?>
     <body>
         
         <?php
         
+        $os = new OS();
         
+        $id = filter_input(INPUT_GET, 'id');
+        
+        if (isset($id)) {
+            if ($os->delete($id)) {
+                header('location: os.php');
+            }
+        }
         
         ?>
         
@@ -53,7 +55,7 @@ $resultados = OS::listarOS();
                         <td><?= $res->equip; ?></td>
                         <td><?= $res->dataOs; ?></td>
                         <td><a href="alt_os.php?id=<?= $res->id; ?>"><img src="img/Modify.png"></a></td>
-                        <td><a href="classes/deleteOS.php?id=<?= $res->id; ?>"><img src="img/Delete.png"></a></td>
+                        <td><a href="os.php?id=<?= $res->id; ?>"><img src="img/Delete.png"></a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

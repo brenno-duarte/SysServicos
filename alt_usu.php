@@ -15,18 +15,11 @@ $resultados = $usuarios->find($id);
 
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Alterar Usuário</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-        <link rel="stylesheet" type="text/css" href="css/custom.css">
-    </head>
+<?php include 'header.php'; ?>
     <body>
 
         <?php
-        $usuarios = new Usuarios();
+        //$usuarios = new Usuarios();
 
         $cpf = filter_input(INPUT_POST, 'cpf');
         $fone = filter_input(INPUT_POST, 'fone');
@@ -47,7 +40,7 @@ $resultados = $usuarios->find($id);
                 $usuarios->setSenha($senha);
 
                 if ($usuarios->update($id)) {
-                    echo 'Alterado com sucesso!';
+                    header('location: usuarios.php');
                 }
             }
         }

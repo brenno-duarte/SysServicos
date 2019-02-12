@@ -8,14 +8,7 @@ spl_autoload_register(function($class) {
 Usuarios::verificarLogin();
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Novo Usuário</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-        <link rel="stylesheet" type="text/css" href="css/custom.css">
-    </head>
+<?php include 'header.php'; ?>
     <body>
 
         <?php
@@ -40,7 +33,7 @@ Usuarios::verificarLogin();
                 $usuarios->setSenha($senha);
 
                 if ($usuarios->insert()) {
-                    echo 'Cadastrado com sucesso!';
+                    header('location: usuarios.php');
                 }
             }
         }

@@ -34,5 +34,3 @@ abstract class SQL extends DB {
     }
 
 }
-
-?>

@@ -9,14 +9,7 @@ Usuarios::verificarLogin();
 
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Nova OS</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-        <link rel="stylesheet" type="text/css" href="css/custom.css">
-    </head>
+<?php include 'header.php'; ?>
     <body>
         
         <?php
@@ -26,24 +19,21 @@ Usuarios::verificarLogin();
         $tec = new Tecnicos();
         
         $idCli = filter_input(INPUT_POST, 'nome');
+        $situacao = filter_input(INPUT_POST, 'situacao');
         $equip = filter_input(INPUT_POST, 'equip');
         $defeito = filter_input(INPUT_POST, 'defeito');
         $tecnico = filter_input(INPUT_POST, 'tecnico');
         
         if (isset($_POST['cadastrar'])) {
             $os->setIdCli($idCli);
+            $os->setSituacao($situacao);
             $os->setEquip($equip);
             $os->setDefeito($defeito);
             $os->setTecnico($tecnico);
             
-            var_dump($os->setIdCli($idCli));
-            var_dump($os->setEquip($equip));
-            var_dump($os->setDefeito($defeito));
-            var_dump($os->setTecnico($tecnico));
-            
-            /*if ($os->insert()) {
-                echo 'OS cadastrada';
-            }*/
+            if ($os->insert()) {
+                header('location: os.php');
+            }
         }
         
         ?>

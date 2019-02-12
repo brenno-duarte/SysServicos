@@ -12,37 +12,31 @@ Usuarios::verificarLogin();
 $id = $_GET['id'];
 
 $resultados = $clientes->find($id);
-
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Alterar Cliente</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-        <link rel="stylesheet" type="text/css" href="css/custom.css">
-    </head>
+<?php include 'header.php'; ?>
     <body>
-        
+
         <?php
-        
-        $clientes = new Clientes();
-        
+        //$clientes = new Clientes();
+
+        $nome = filter_input(INPUT_POST, 'nome');
+        $cpf = filter_input(INPUT_POST, 'cpf');
+        $fone = filter_input(INPUT_POST, 'fone');
+        $idC = filter_input(INPUT_POST, 'id');
+
         if (isset($_POST['alterar'])) {
-            
-            $clientes->setNome($_POST['nome']);
-            $clientes->setCpf($_POST['cpf']);
-            $clientes->setFone($_POST['fone']);
-            
-            if ($clientes->update($_POST['id'])) {
-                echo 'Alterado com sucesso';
+
+            $clientes->setNome($nome);
+            $clientes->setCpf($cpf);
+            $clientes->setFone($fone);
+
+            if ($clientes->update($idC)) {
+                header('location: clientes.php');
             }
         }
-        
-        
         ?>
-        
+
         <?php include 'menu.php'; ?>
 
         <section class="container">

@@ -77,70 +77,65 @@ class OS extends SQL {
         return $resultados;
     }
 
-    public static function listarOSOrc() {
+    public function listarOSOrc($id) {
 
-        $id = $_GET['id'];
-        $stmt = DB::prepare("SELECT * FROM tb_os a INNER JOIN tb_clientes b ON b.id=a.idCli WHERE idOS=:id ORDER BY b.nome");
-        $stmt->execute(['id' => $id]);
-        $resultados = $stmt->fetch(PDO::FETCH_OBJ);
-        return $resultados;
+        $sql = "SELECT a.id, b.nome, a.situacao, a.equip FROM $this->table a INNER JOIN tb_clientes b ON a.idCli=b.id WHERE a.id=:id";
+        $stmt = DB::prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public static function orcamento() {
-        $id = isset($_POST['id']) ? $_POST['id'] : null;
-        $valorp = isset($_POST['valorp']) ? $_POST['valorp'] : null;
-        $valors = isset($_POST['valors']) ? $_POST['valors'] : null;
-        $desconto = isset($_POST['desconto']) ? $_POST['desconto'] : null;
+    public function orcamentoTotal($id, $total) {
 
-        $total = $valorp + $valors;
-        $totalD = ($valorp + $valors) - $desconto;
+        try {
+            $stmt = DB::prepare("UPDATE $this->table SET valor=:valor,situacao='Aguardando autorização' WHERE id=:id");
 
-        if (isset($totalD)) {
-            try {
-                $stmt = DB::prepare("UPDATE tb_os SET valor=?,situacao='Aguardando autorização' WHERE idOS=?");
+            $stmt->bindParam(':valor', $total);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
 
-                $stmt->bindParam(1, $totalD);
-                $stmt->bindParam(2, $id);
-                $stmt->execute();
+            //header("location: painel.php");
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
 
-                header("location: painel.php");
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
-        } elseif (isset($total)) {
-            try {
-                $stmt = DB::prepare("UPDATE tb_os SET valor=? WHERE idOS=?");
+    public function orcamentoD($id, $totalD) {
+        
+        try {
+            $sql = "UPDATE $this->table SET valor=:valor WHERE id=:id";
+            $stmt = DB::prepare($sql);
+            $stmt->bindParam(':valor', $totalD);
+            $stmt->bindParam(':id', $id);
+            
+            /*var_dump($id);
+            var_dump($totalD);*/
+            $stmt->execute();
 
-                $stmt->bindParam(1, $total);
-                $stmt->bindParam(2, $id);
-                $stmt->execute();
-
-                header("location: os.php");
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
         }
     }
 
     public function insert() {
 
-        $nome = isset($_POST['nome']) ? $_POST['nome'] : NULL;
-        $situacao = isset($_POST['situacao']) ? $_POST['situacao'] : NULL;
-        $equip = isset($_POST['equip']) ? $_POST['equip'] : NULL;
-        $defeito = isset($_POST['defeito']) ? $_POST['defeito'] : NULL;
-        $tecnico = isset($_POST['tecnico']) ? $_POST['tecnico'] : NULL;
-
         try {
-            $stmt = DB::prepare("INSERT INTO tb_os (idCli, situacao,equip,defeito,tecnico) VALUES (?,?,?,?,?)");
+            $sql = "INSERT INTO $this->table (idCli, situacao, equip, defeito, tecnico) VALUES (:idCli, :situacao, :equip, :defeito, :tecnico)";
+            $stmt = DB::prepare($sql);
+            $stmt->bindParam(':idCli', $this->idCli);
+            $stmt->bindParam(':situacao', $this->situacao);
+            $stmt->bindParam(':equip', $this->equip);
+            $stmt->bindParam(':defeito', $this->defeito);
+            $stmt->bindParam(':tecnico', $this->tecnico);
 
-            $stmt->bindParam(1, $nome);
-            $stmt->bindParam(2, $situacao);
-            $stmt->bindParam(3, $equip);
-            $stmt->bindParam(4, $defeito);
-            $stmt->bindParam(5, $tecnico);
+            /* var_dump($this->idCli);
+              var_dump($this->situacao);
+              var_dump($this->equip);
+              var_dump($this->defeito);
+              var_dump($this->tecnico); */
+
             $stmt->execute();
-
-            header("location: os.php");
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -149,23 +144,18 @@ class OS extends SQL {
     public function update($id) {
 
         try {
-            $sql = "UPDATE $this->table SET idCli=?,situacao=?,equip=?,defeito=?,tecnico=?,valor=? WHERE id=?";
+            $sql = "UPDATE $this->table SET idCli=:idCli, situacao=:situacao, equip=:equip, defeito=:defeito, tecnico=:tecnico WHERE id=:id";
             $stmt = DB::prepare($sql);
-
-            $stmt->bindParam(1, $this->nome);
-            $stmt->bindParam(2, $this->situacao);
-            $stmt->bindParam(3, $this->equip);
-            $stmt->bindParam(4, $this->defeito);
-            $stmt->bindParam(5, $this->tecnico);
-            $stmt->bindParam(6, $this->valor);
-            $stmt->bindParam(7, $id);
+            $stmt->bindParam(':idCli', $this->idCli);
+            $stmt->bindParam(':situacao', $this->situacao);
+            $stmt->bindParam(':equip', $this->equip);
+            $stmt->bindParam(':defeito', $this->defeito);
+            $stmt->bindParam(':tecnico', $this->tecnico);
+            $stmt->bindParam(':id', $id);
             $stmt->execute();
-
         } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
 
 }
-
-?>

@@ -10,9 +10,10 @@ spl_autoload_register(function($class) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>SysServiços</title>
+        <title>Login no SysServiços</title>
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
+        <link rel="icon" href="img/logo/sysservicos-icon.png" />
     </head>
     <body style="background-color: #4A708B;">
 
@@ -28,13 +29,14 @@ spl_autoload_register(function($class) {
                 echo 'logado';
             }
         }
+        
         ?>
 
         <section class="container">
 
             <form class="form" method="post">
                 <div class="center">
-                    <img style="width: 400px; height: 200px;" src="img/sysserviçoslogo.png">
+                    <img style="width: 400px; height: 200px;" src="img/logo/sysservicoslogo.png">
                 </div>
 
                 <?php

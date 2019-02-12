@@ -7,32 +7,43 @@ spl_autoload_register(function($class) {
 
 Usuarios::verificarLogin();
 
-$clientes = new Clientes();
-$tec = new Tecnicos();
-
 $os = new OS();
+
 $id = $_GET['id'];
 
 $resultados = $os->find($id);
 
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Alterar OS</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-        <link rel="stylesheet" type="text/css" href="css/custom.css">
-    </head>
+<?php include 'header.php'; ?>
     <body>
-        
+
         <?php
         
-        //
+        //$os = new OS();
+        $clientes = new Clientes();
+        $tec = new Tecnicos();
+
+        $idCli = filter_input(INPUT_POST, 'nome');
+        $situacao = filter_input(INPUT_POST, 'situacao');
+        $equip = filter_input(INPUT_POST, 'equip');
+        $defeito = filter_input(INPUT_POST, 'defeito');
+        $tecnico = filter_input(INPUT_POST, 'tecnico');
+
+        if (isset($_POST['alterar'])) {
+            $os->setIdCli($idCli);
+            $os->setSituacao($situacao);
+            $os->setEquip($equip);
+            $os->setDefeito($defeito);
+            $os->setTecnico($tecnico);
+
+            if ($os->update($id)) {
+                echo 'OS cadastrada';
+            }
+        }
         
         ?>
-        
+
         <?php include 'menu.php'; ?>
 
         <section class="container">
@@ -69,7 +80,7 @@ $resultados = $os->find($id);
 
                 <input type="hidden" name="id" class="input-text" value="<?= $resultados->id; ?>" readonly>
 
-                <input type="submit" name="AlterarOS" value="Alterar" class="btn-4">
+                <input type="submit" name="alterar" value="Alterar" class="btn-4">
 
             </form>
 

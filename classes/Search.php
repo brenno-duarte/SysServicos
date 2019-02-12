@@ -1,21 +1,20 @@
 <?php
 
-spl_autoload_register(function($class){
-	include 'classes/' . $class . '.php';
+spl_autoload_register(function($class) {
+    include 'classes/' . $class . '.php';
 });
 
 class Search {
-	
-	public static function pesqCli() {
 
-		$search = isset($_GET['search']) ? $_GET['search'] : '';  
+    public static function pesqCli() {
 
-		$stmt = DB::prepare("SELECT * FROM tb_os a INNER JOIN tb_clientes b ON a.idCli=b.id WHERE b.nome LIKE :search");
-		$stmt->bindValue(':search', '%' . $search . '%');
-		$stmt->execute();
+        $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-		return $clientes = $stmt->fetchAll(PDO::FETCH_OBJ);
-	}
+        $stmt = DB::prepare("SELECT a.id, b.nome, a.situacao, a.equip FROM tb_os a INNER JOIN tb_clientes b ON a.idCli=b.id WHERE b.nome LIKE :search");
+        $stmt->bindValue(':search', '%' . $search . '%');
+        $stmt->execute();
+
+        return $clientes = $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
 }
-
-?>

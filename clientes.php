@@ -9,14 +9,7 @@ Usuarios::verificarLogin();
 
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Clientes</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-        <link rel="stylesheet" type="text/css" href="css/custom.css">
-    </head>
+<?php include 'header.php'; ?>
     <body>
         
         <?php
@@ -27,7 +20,7 @@ Usuarios::verificarLogin();
         
         if (isset($id)) {
             if ($clientes->delete($id)) {
-                echo 'Deletado com sucesso';
+                header('location: clientes.php');
             }
         }
         

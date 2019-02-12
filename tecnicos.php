@@ -8,14 +8,7 @@ spl_autoload_register(function($class) {
 Usuarios::verificarLogin();
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Técnicos</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/CustomCSS.css">
-        <link rel="stylesheet" type="text/css" href="css/custom.css">
-    </head>
+<?php include 'header.php'; ?>
     <body>
 
         <?php
@@ -25,7 +18,7 @@ Usuarios::verificarLogin();
 
         if (isset($id)) {
             if ($tec->delete($id)) {
-                echo 'Deletado com sucesso';
+                header('location: tecnicos.php');
             }
         }
         ?>
