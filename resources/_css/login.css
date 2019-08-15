@@ -1,0 +1,27 @@
+body {
+    background-color: #0E6EB8;
+}
+body > .grid {
+    height: 100%;
+}
+.image {
+    margin-top: -100px;
+}
+.column {
+    max-width: 450px;
+}
+
+.resp-img {
+    width: 80%;
+    height: 80%;
+}
+
+.back {
+    background-color: #FFF;
+    border-radius: 10px;
+}
+
+.back2 {
+    background-color: #DCDCDC !important;
+    border-radius: 10px;
+}

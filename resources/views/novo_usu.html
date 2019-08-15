@@ -1,0 +1,41 @@
+{% extends 'menu.html' %}
+{% block content %}
+
+<div class="row">
+    <h1>Novo Usuário</h1>
+</div>
+
+<form class="ui form inverted segment container" method="post">
+    <div class="two fields">
+        <div class="field">
+            <label for="nome">Nome do usuário</label>
+            <input id="nome" type="text" placeholder="Nome do usuário">
+        </div>
+        <div class="field">
+            <label for="cpf">CPF</label>
+            <input id="cpf" type="text" placeholder="CPF">
+        </div>
+    </div>
+    <div class="four fields">   
+        <div class="field">
+            <label for="fone">Telefone</label>
+            <input id="fone" type="text" placeholder="Telefone">
+        </div>
+        <div class="field">
+            <label for="login">Login</label>
+            <input id="login" type="text" placeholder="Login">
+        </div>
+        <div class="field">
+            <label for="senha">Senha</label>
+            <input id="senha" type="password" placeholder="Senha">
+        </div>
+        <div class="field">
+            <label for="confSenha">Confirmar senha</label>
+            <input id="confSenha" type="password" placeholder="Confirmar senha">
+        </div>
+    </div>
+
+    <button type="submit" class="positive ui button">Cadastrar</button>
+</form>
+
+{% endblock %}

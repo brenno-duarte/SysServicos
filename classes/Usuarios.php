@@ -76,11 +76,7 @@ class Usuarios extends SQL {
         }
     }
 
-    public function verificarLogin() {
-        if (!isset($_SESSION['login'])) {
-            header("location: index.php");
-        }
-    }
+    
 
     public function insert() {
 
