@@ -1,0 +1,41 @@
+{% extends 'menu.html' %}
+{% block content %}
+
+<div class="row">
+    <h1>Alterar Usuário</h1>
+</div>
+
+<form class="ui form inverted segment container" method="post" action="{{ path_for('alterarUsuario', {'id': user.idUsu}) }}">
+    <div class="two fields">
+        <div class="field">
+            <label for="nome">Nome do usuário</label>
+            <input id="nome" type="text" name="nome" value="{{ user.nome }}" placeholder="Nome do usuário">
+        </div>
+        <div class="field">
+            <label for="cpf">CPF</label>
+            <input id="cpf" type="text" name="cpf" value="{{ user.cpf }}" placeholder="CPF">
+        </div>
+    </div>
+    <div class="four fields">   
+        <div class="field">
+            <label for="fone">Telefone</label>
+            <input id="fone" type="text" name="fone" value="{{ user.fone }}" placeholder="Telefone">
+        </div>
+        <div class="field">
+            <label for="login">Login</label>
+            <input id="login" type="text" name="login" value="{{ user.loginUsu }}" placeholder="Login">
+        </div>
+        <div class="field">
+            <label for="senha">Senha</label>
+            <input id="senha" type="password" name="senha" value="{{ user.senhaUsu }}" placeholder="Senha">
+        </div>
+        <div class="field">
+            <label for="confSenha">Confirmar senha</label>
+            <input id="confSenha" type="password" name="confSenha" value="{{ user.senhaUsu }}" placeholder="Confirmar senha">
+        </div>
+    </div>
+
+    <button type="submit" class="positive ui button">Alterar</button>
+</form>
+
+{% endblock %}

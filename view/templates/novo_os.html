@@ -1,0 +1,56 @@
+{% extends 'menu.html' %}
+{% block content %}
+
+<div class="row">
+    <h1>Nova Ordem de Serviço</h1>
+</div>
+
+<form class="ui form inverted segment container" method="post" action="{{ path_for('novaOrdemDeServico') }}">
+
+    <div class="two fields">
+        <div class="field">
+            <label>Nome do cliente</label>
+            <select name="cliente" class="ui selection dropdown" required>
+                <option selected value="" class="default text">--Selecione o nome do cliente--</option>
+                {% for c in cli %}
+                <option value="{{ c.idCli }}">{{ c.nome }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Técnico</label>
+            <select name="tecnico" class="ui selection dropdown" required>
+                <option selected value="" class="default text">--Selecione o técnico--</option>
+                {% for t in tec %}
+                <option value="{{ t.idTec }}">{{ t.nome }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="field">
+        <label for="equip">Equipamento</label>
+        <input id="equip" type="text" id="equip" name="equip" placeholder="Equipamento" required>
+    </div>
+    
+    <div class="field">
+        <label for="defeito">Defeito</label>
+        <input id="defeito" type="text" id="defeito" name="defeito" placeholder="Defeito" required>
+    </div>
+
+    <div class="field red">
+        <label for="situacao">Situação</label>
+        <input id="situacao" class="red" type="text" name="situacao" value="Aguardando diagnóstico" readonly>
+    </div>
+
+    <div class="field">
+        <label for="valor">Valor(R$)</label>
+        <input id="valor" type="text" name="valor" placeholder="Valor" required>
+    </div>
+
+    <button type="submit" class="positive ui button">Cadastrar</button>
+
+</form>
+
+{% endblock %}

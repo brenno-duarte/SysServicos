@@ -1,0 +1,42 @@
+{% extends 'menu.html' %}
+{% block content %}
+
+<div class="row">
+    <h1>Novo Usuário</h1>
+</div>
+
+<form class="ui form inverted segment container" method="post" action="{{ path_for('novoUsuario') }}">
+    <div class="two fields">
+        <div class="field">
+            <label for="nome">Nome do usuário</label>
+            <input id="nome" type="text" name="nome" placeholder="Nome do usuário" required>
+        </div>
+        <div class="field">
+            <label for="cpf">CPF</label>
+            <input id="cpf" type="text" name="cpf" placeholder="CPF" required>
+        </div>
+    </div>
+    <div class="four fields">   
+        <div class="field">
+            <label for="fone">Telefone</label>
+            <input id="fone" type="text" name="fone" placeholder="Telefone" required>
+        </div>
+        <div class="field">
+            <label for="login">Login</label>
+            <input id="login" type="text" name="login" placeholder="Login" required>
+        </div>
+        <div class="field">
+            <label for="senha">Senha</label>
+            <input id="senha" type="password" name="senha" placeholder="Senha" required>
+        </div>
+        <div class="field">
+            <label for="confSenha">Confirmar senha</label>
+            <input id="confSenha" type="password" name="confSenha" onblur="verificar();" placeholder="Confirmar senha" required>
+        </div>
+    </div>
+
+    <button type="submit" class="positive ui button" id="submitUsu">Cadastrar</button>
+    <span id="avisoSenha"></span>
+</form>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SysServiços - Login</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="view/semantic.ui/semantic.css">
+        <link rel="stylesheet" href="view/_css/custom.css" />
+        <link rel="stylesheet" href="view/_css/login.css" />
+        <link rel="icon" href="view/_img/logo/sysservicos-icon.png" />
+    </head>
+    <body>
+        <div class="ui middle aligned center aligned grid">
+            <div class="column back">
+                <img src="view/_img/logo/sysservicoslogo.png" class="resp-img">
+                <form class="ui large form" action="{{ path_for('login') }}" method="POST">
+                    <div class="ui stacked back2 segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input type="text" name="login" placeholder="Login">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" name="senha" placeholder="Senha">
+                            </div>
+                        </div>
+                        <button class="ui fluid large teal submit button" type="submit">Acessar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="view/semantic.ui/semantic.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('.ui.dropdown').dropdown();
+                $('.ui.sidebar').sidebar('show');
+            });
+        </script>
+    </body>
+</html>

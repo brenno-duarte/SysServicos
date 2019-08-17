@@ -1,0 +1,38 @@
+{% extends 'menu.html' %}
+{% block content %}
+
+<div class="row">
+    <h1 class="center">Usuários</h1>
+</div>
+
+<div class="row">
+    <a href="{{ path_for('novoUsuario') }}" class="positive ui button">Novo usuário</a>
+</div>
+
+<table class="ui celled table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome do usuário</th>
+            <th>CPF</th>
+            <th>Telefone</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for u in user %}
+        <tr>
+            <td>{{ u.idUsu }}</td>
+            <td>{{ u.nome }}</td>
+            <td>{{ u.cpf }}</td>
+            <td>{{ u.fone }}</td>
+            <td>
+                <a href="{{ path_for('alterarUsuario', {'id': u.idUsu}) }}"><i class="edit icon"></i>Editar</a>
+                <a href="{{ path_for('deletarUsuario', {'id': u.idUsu}) }}"><i class="trash icon"></i>Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

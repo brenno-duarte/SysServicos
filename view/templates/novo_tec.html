@@ -1,0 +1,23 @@
+{% extends 'menu.html' %}
+{% block content %}
+
+<div class="row">
+    <h1>Novo Técnico</h1>
+</div>
+
+<form class="ui form inverted segment container" method="post" action="{{ path_for('novoTecnico') }}">
+    <div class="two fields">
+        <div class="field">
+            <label for="nome">Nome do usuário</label>
+            <input id="nome" type="text" name="nome" placeholder="Nome do usuário" required>
+        </div>
+        <div class="field">
+            <label for="cpf">CPF</label>
+            <input id="cpf" type="text" name="cpf" placeholder="CPF" required>
+        </div>
+    </div>
+
+    <button type="submit" class="positive ui button">Cadastrar</button>
+</form>
+
+{% endblock %}

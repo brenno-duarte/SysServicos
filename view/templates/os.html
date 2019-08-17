@@ -1,0 +1,46 @@
+{% extends 'menu.html' %}
+{% block content %}
+
+
+<div class="row">
+    <h1 class="center">Ordens de serviço</h1>
+</div>
+
+<div class="row">
+    <a href="{{ path_for('novaOrdemDeServico') }}" class="positive ui button">Nova ordem de serviço</a>
+</div>
+
+
+<table class="ui celled table">
+    <thead>
+        <tr>
+            <th>ID OS</th>
+            <th>Nome do cliente</th>
+            <th>Situação</th>
+            <th>Equipamento</th>
+            <th>Defeito</th>
+            <th>Valor(R$)</th>
+            <th>Data da OS</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for o in os %}
+        <tr>
+            <td>{{ o.idOS }}</td>
+            <td>{{ o.nome }}</td>
+            <td>{{ o.situacao }}</td>
+            <td>{{ o.equip }}</td>
+            <td>{{ o.defeito }}</td>
+            <td>{{ o.valor }}</td>
+            <td>{{ o.dataOs | date('d/m/Y') }}</td>
+            <td>
+                <a href="{{ path_for('alterarOrdemDeServico', {'id': o.idOS}) }}"><i class="edit icon"></i>Editar</a>
+                <a href="{{ path_for('deletarOrdemDeServico', {'id': o.idOS}) }}"><i class="trash icon"></i>Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

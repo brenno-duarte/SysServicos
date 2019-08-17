@@ -11,7 +11,7 @@ $app = new \Slim\App($config);
 $container = $app->getContainer();
 
 $container['view'] = function ($container) {
-   $view = new \Slim\Views\Twig(__DIR__ . '/resources/views', [
+   $view = new \Slim\Views\Twig(__DIR__ . '/view/templates', [
        'cache' => false,
    ]);
    
@@ -21,4 +21,9 @@ $container['view'] = function ($container) {
    $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
 
    return $view;
+};
+
+// Register provider
+$container['flash'] = function () {
+    return new \Slim\Flash\Messages();
 };

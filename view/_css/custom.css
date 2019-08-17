@@ -1,0 +1,31 @@
+form {
+    max-width: 100% !important;
+    background-color: #4A708B !important;
+}
+
+.weigth {
+    font-weight: bold !important;
+}
+
+.color{
+    color: #FFF !important;
+}
+
+.color:hover{
+    color: #000 !important;
+}
+
+.back {
+    background-color: #FF4500;
+}
+
+.margin {
+    margin-top: 20px !important;
+}
+
+.centralizar {
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
