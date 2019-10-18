@@ -2,21 +2,6 @@
 
 class ClienteDAO {
     
-    public function insert(Cliente $cliente) {
-
-        try {
-            $sql = "INSERT INTO tb_clientes (nome,cpf,fone) VALUES (:nome,:cpf,:fone)";
-            $stmt = DB::prepare($sql);
-            $stmt->bindValue(':nome', $cliente->getNome());
-            $stmt->bindValue(':cpf', $cliente->getCpf());
-            $stmt->bindValue(':fone', $cliente->getFone());
-            return $stmt->execute();
-
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
-    }
-
     public function listAll() {
 
         try {
@@ -43,6 +28,35 @@ class ClienteDAO {
             return $user;
 
         } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function countCliente(){
+        try {
+            $sql = "SELECT count(*) FROM tb_clientes";
+            $stmt = DB::prepare($sql);
+            $stmt->execute();
+            $user = $stmt->fetchAll(PDO::FETCH_OBJ);
+            
+            return $user;
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+    
+    public function insert(Cliente $cliente) {
+
+        try {
+            $sql = "INSERT INTO tb_clientes (nome,cpf,fone) VALUES (:nome,:cpf,:fone)";
+            $stmt = DB::prepare($sql);
+            $stmt->bindValue(':nome', $cliente->getNome());
+            $stmt->bindValue(':cpf', $cliente->getCpf());
+            $stmt->bindValue(':fone', $cliente->getFone());
+            return $stmt->execute();
+
+        } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }

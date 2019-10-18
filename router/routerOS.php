@@ -6,12 +6,16 @@ include_once PATH . '/src/Model/OS.php';
 $app->get('/ordemDeServico', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
+        $os = OSController::listar();
 
-        $os = new OSController();
-        $res = $os->listar();
-
+        $msg1 = $this->flash->getFirstMessage('osAdd');
+        $msg2 = $this->flash->getFirstMessage('osAlt');
+        $msg3 = $this->flash->getFirstMessage('osDel');
         return $this->view->render($response, 'os.html', [
-            'os' => $res
+            'os' => $os,
+            'msg1' => $msg1,
+            'msg2' => $msg2,
+            'msg3' => $msg3
         ]);
     } else {
         return $response->withHeader('Location', 'login');
@@ -29,10 +33,8 @@ $app->get('/novaOrdemDeServico', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
 
-        $tecnico = new TecnicoController();  
-        $cliente = new ClienteController();
-        $cli = $cliente->listar();
-        $tec = $tecnico->listar();
+        $tec = TecnicoController::listar();
+        $cli = ClienteController::listar();
 
         return $this->view->render($response, 'novo_os.html', [
             'tec' => $tec,
@@ -55,16 +57,8 @@ $app->post('/novaOrdemDeServico', function ($request, $response, $args) {
         $situacao = filter_input(INPUT_POST, 'situacao');
         $valor = filter_input(INPUT_POST, 'valor');
 
-        $os = new OSController();
-        $osModel = new OS();
-        $osModel->setIdCli($cliente);
-        $osModel->setTecnico($tecnico);
-        $osModel->setEquip($equip);
-        $osModel->setDefeito($defeito);
-        $osModel->setSituacao($situacao);
-        $osModel->setValor($valor);
-        $os->inserir($osModel);
-
+        OSController::inserir($cliente, $tecnico, $equip, $defeito, $situacao, $valor);
+        $this->flash->addMessage('osAdd', 'Ordem de serviço cadastrado com sucesso');
         return $response->withRedirect($this->router->pathFor('ordemDeServico'));
     } else {
         return $response->withHeader('Location', 'login');
@@ -82,12 +76,9 @@ $app->get('/alterarOrdemDeServico/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
 
-        $tecnico = new TecnicoController();  
-        $cliente = new ClienteController();
-        $ordem = new OSController();
-        $cli = $cliente->listar();
-        $tec = $tecnico->listar();
-        $os = $ordem->listarUnico($args['id']);
+        $tec = TecnicoController::listar();  
+        $cli = ClienteController::listar();
+        $os = OSController::listarUnico($args['id']);
 
         return $this->view->render($response, 'alterar_os.html', [
             'tec' => $tec,
@@ -111,16 +102,8 @@ $app->post('/alterarOrdemDeServico/{id}', function ($request, $response, $args) 
         $situacao = filter_input(INPUT_POST, 'situacao');
         $valor = filter_input(INPUT_POST, 'valor');
 
-        $os = new OSController();
-        $osModel = new OS();
-        $osModel->setIdCli($cliente);
-        $osModel->setTecnico($tecnico);
-        $osModel->setEquip($equip);
-        $osModel->setDefeito($defeito);
-        $osModel->setSituacao($situacao);
-        $osModel->setValor($valor);
-        $os->alterar($osModel, $args['id']);
-
+        OSController::alterar($cliente, $tecnico, $equip, $defeito, $situacao, $valor, $args['id']);
+        $this->flash->addMessage('osAlt', 'Ordem de serviço alterado com sucesso');
         return $response->withRedirect($this->router->pathFor('ordemDeServico'));
     } else {
         return $response->withHeader('Location', 'login');
@@ -138,9 +121,8 @@ $app->get('/deletarOrdemDeServico/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
 
-        $os = new OSController();
-        $os->excluir($args['id']);
-
+        OSController::excluir($args['id']);
+        $this->flash->addMessage('osDel', 'Ordem de serviço deletado com sucesso');
         return $response->withRedirect($this->router->pathFor('ordemDeServico'));
     } else {
         return $response->withHeader('Location', 'login');

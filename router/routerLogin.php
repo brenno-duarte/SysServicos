@@ -7,7 +7,11 @@ $app->get('/', function ($request, $response, $args) {
 })->setName('index');
 
 $app->get('/login', function ($request, $response, $args) {
-    return $this->view->render($response, 'login.html');
+
+    $msg = $this->flash->getFirstMessage('erroLogin');
+    return $this->view->render($response, 'login.html', [
+        'msg' => $msg
+    ]);
 })->setName('login');
 
 $app->post('/login', function ($request, $response, $args) {
@@ -17,12 +21,12 @@ $app->post('/login', function ($request, $response, $args) {
     
     $user = new UsuarioController();
     $res = $user->login($login, $senha);
-    #print_r($res);
 
     if ($res == true) {
         setcookie('user', $login);
         return $response->withHeader('Location', 'painel');
     } else {
+        $this->flash->addMessage('erroLogin', 'Login e/ou senha inválido');
         return $response->withHeader('Location', 'login');
     }
 
@@ -31,7 +35,12 @@ $app->post('/login', function ($request, $response, $args) {
 $app->get('/painel', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
-        return $this->view->render($response, 'painel.html');
+
+        $cliente = new ClienteController();
+        $cli = $cliente->totalCli();
+        return $this->view->render($response, 'painel.html', [
+            'cli' => $cli
+        ]);
     } else {
         return $response->withHeader('Location', 'login');
     }

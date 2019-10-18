@@ -6,15 +6,18 @@ include_once PATH . '/src/Model/Cliente.php';
 $app->get('/clientes', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
-
-        $cliente = new ClienteController();
-        $res = $cliente->listar();
+        $cliente = ClienteController::listar();
 
         $msg = $this->flash->getFirstMessage('erroFk');
-
+        $msg1 = $this->flash->getFirstMessage('cliAdd');
+        $msg2 = $this->flash->getFirstMessage('cliAlt');
+        $msg3 = $this->flash->getFirstMessage('cliDel');
         return $this->view->render($response, 'clientes.html', [
-            'cli' => $res,
-            'msg' => $msg
+            'cli' => $cliente,
+            'msg' => $msg,
+            'msg1' => $msg1,
+            'msg2' => $msg2,
+            'msg3' => $msg3
         ]);
     } else {
         return $response->withHeader('Location', 'login');
@@ -46,14 +49,8 @@ $app->post('/novoCliente', function ($request, $response, $args) {
         $cpf = filter_input(INPUT_POST, 'cpf');
         $fone = filter_input(INPUT_POST, 'fone');
 
-        $clienteC = new ClienteController();
-        $cliente = new Cliente();
-        $cliente->setNome($nome);
-        $cliente->setCpf($cpf);
-        $cliente->setFone($fone);
-
-        $clienteC->inserir($cliente);
-
+        ClienteController::inserir($nome, $cpf, $fone);
+        $this->flash->addMessage('cliAdd', 'Cliente cadastrado com sucesso');
         return $response->withHeader('Location', 'clientes');
     } else {
         return $response->withHeader('Location', 'login');
@@ -86,19 +83,12 @@ $app->get('/alterarCliente/{id}', function ($request, $response, $args) {
 $app->post('/alterarCliente/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
-
         $nome = filter_input(INPUT_POST, 'nome');
         $cpf = filter_input(INPUT_POST, 'cpf');
         $fone = filter_input(INPUT_POST, 'fone');
 
-        $clienteC = new ClienteController();
-        $cliente = new Cliente();
-        $cliente->setNome($nome);
-        $cliente->setCpf($cpf);
-        $cliente->setFone($fone);
-
-        $clienteC->alterar($cliente, $args['id']);
-
+        ClienteController::alterar($nome, $cpf, $fone, $args['id']);
+        $this->flash->addMessage('cliAlt', 'Cliente alterado com sucesso');
         return $response->withRedirect($this->router->pathFor('clientes'));
     } else {
         return $response->withHeader('Location', 'login');
@@ -116,10 +106,10 @@ $app->get('/deletarCliente/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
 
-        $cliente = new ClienteController();
-        $delete = $cliente->excluir($args['id']);
+        $delete = ClienteController::excluir($args['id']);
 
         if ($delete) {
+            $this->flash->addMessage('cliDel', 'Cliente deletado com sucesso');
             return $response->withRedirect($this->router->pathFor('clientes'));
         } else {
             $this->flash->addMessage('erroFk', 'O cliente possui dependências em outro local');

@@ -16,35 +16,46 @@ class UsuarioController extends UsuarioDAO {
         return $res;
     }
 
-    public function listar(){
+    public static function listar(){
         $usuarioDAO = new UsuarioDAO();
 
         $res = $usuarioDAO->listAll();
         return $res;
     }
 
-    public function listarUnico($id){
+    public static function listarUnico($id){
         $usuarioDAO = new UsuarioDAO();
 
         $res = $usuarioDAO->listOnly($id);
         return $res;
     }
 
-    public function inserir(Usuario $usuario){
+    public static function inserir($nome, $cpf, $fone, $login, $senha){
         $usuarioDAO = new UsuarioDAO();
-
-        $res = $usuarioDAO->insert($usuario);
+        $userModel = new Usuario();
+        $userModel->setNome($nome);
+        $userModel->setCpf($cpf);
+        $userModel->setFone($fone);
+        $userModel->setLogin($login);
+        $userModel->setSenha($senha);
+        $res = $usuarioDAO->insert($userModel);
         return $res;
     }
 
-    public function alterar(Usuario $usuario, int $id){
+    public function alterar($nome, $cpf, $fone, $login, $senha, int $id){
         $usuarioDAO = new UsuarioDAO();
+        $userModel = new Usuario();        
+        $userModel->setNome($nome);
+        $userModel->setCpf($cpf);
+        $userModel->setFone($fone);
+        $userModel->setLogin($login);
+        $userModel->setSenha($senha);
 
-        $res = $usuarioDAO->update($usuario, $id);
+        $res = $usuarioDAO->update($userModel, $id);
         return $res;
     }
 
-    public function excluir(int $id){
+    public static function excluir(int $id){
         $usuarioDAO = new UsuarioDAO();
 
         $res = $usuarioDAO->delete($id);

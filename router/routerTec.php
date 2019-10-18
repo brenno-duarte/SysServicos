@@ -6,12 +6,16 @@ include_once PATH . '/src/Model/Tecnico.php';
 $app->get('/tecnicos', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
-
-        $tec = new TecnicoController();
-        $res = $tec->listar();
-
+        $tec = TecnicoController::listar();
+        
+        $msg1 = $this->flash->getFirstMessage('tecAdd');
+        $msg2 = $this->flash->getFirstMessage('tecAlt');
+        $msg3 = $this->flash->getFirstMessage('tecDel');
         return $this->view->render($response, 'tecnicos.html', [
-            'tec' => $res
+            'tec' => $tec,
+            'msg1' => $msg1,
+            'msg2' => $msg2,
+            'msg3' => $msg3
         ]);
     } else {
         return $response->withHeader('Location', 'login');
@@ -42,12 +46,8 @@ $app->post('/novoTecnico', function ($request, $response, $args) {
         $nome = filter_input(INPUT_POST, 'nome');
         $cpf = filter_input(INPUT_POST, 'cpf');
 
-        $tec = new TecnicoController();
-        $tecM = new Tecnico();
-        $tecM->setNome($nome);
-        $tecM->setCpf($cpf);
-        $tec->inserir($tecM);
-        
+        TecnicoController::inserir($nome, $cpf);
+        $this->flash->addMessage('tecAdd', 'Técnico cadastrado com sucesso');
         return $response->withRedirect($this->router->pathFor('tecnicos'));
     } else {
         return $response->withHeader('Location', 'login');
@@ -64,9 +64,7 @@ $app->post('/novoTecnico', function ($request, $response, $args) {
 $app->get('/alterarTecnico/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
-
-        $tec = new TecnicoController();
-        $res = $tec->listarUnico($args['id']);
+        $res = TecnicoController::listarUnico($args['id']);
 
         return $this->view->render($response, 'alterar_tec.html', [
             'tec' => $res
@@ -84,12 +82,8 @@ $app->post('/alterarTecnico/{id}', function ($request, $response, $args) {
         $nome = filter_input(INPUT_POST, 'nome');
         $cpf = filter_input(INPUT_POST, 'cpf');
 
-        $tec = new TecnicoController();
-        $tecM = new Tecnico();
-        $tecM->setNome($nome);
-        $tecM->setCpf($cpf);
-        $tec->alterar($tecM, $args['id']);
-        
+        TecnicoController::alterar($nome, $cpf, $args['id']);
+        $this->flash->addMessage('tecAlt', 'Técnico alterado com sucesso');
         return $response->withRedirect($this->router->pathFor('tecnicos'));
     } else {
         return $response->withHeader('Location', 'login');
@@ -107,9 +101,8 @@ $app->get('/deletarTecnico/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
 
-        $tec = new TecnicoController();
-        $tec->excluir($args['id']);
-
+        TecnicoController::excluir($args['id']);
+        $this->flash->addMessage('tecDel', 'Técnico deletado com sucesso');
         return $response->withRedirect($this->router->pathFor('tecnicos'));
     } else {
         return $response->withHeader('Location', 'login');

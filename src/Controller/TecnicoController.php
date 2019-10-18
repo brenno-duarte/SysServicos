@@ -5,35 +5,39 @@ include_once PATH . '/src/Model/Tecnico.php';
 
 class TecnicoController extends TecnicoDAO {
 
-    public function listar(){
+    public static function listar(){
         $tecnicoDAO = new TecnicoDAO();
 
         $res = $tecnicoDAO->listAll();
         return $res;
     }
 
-    public function listarUnico($id){
+    public static function listarUnico($id){
         $tecnicoDAO = new TecnicoDAO();
 
         $res = $tecnicoDAO->listOnly($id);
         return $res;
     }
 
-    public function inserir(Tecnico $tecnico){
+    public static function inserir($nome, $cpf){
         $tecnicoDAO = new TecnicoDAO();
-
-        $res = $tecnicoDAO->insert($tecnico);
+        $tecM = new Tecnico();
+        $tecM->setNome($nome);
+        $tecM->setCpf($cpf);
+        $res = $tecnicoDAO->insert($tecM);
         return $res;
     }
 
-    public function alterar(Tecnico $tecnico, int $id){
+    public static function alterar($nome, $cpf, int $id){
         $tecnicoDAO = new TecnicoDAO();
-
-        $res = $tecnicoDAO->update($tecnico, $id);
+        $tecM = new Tecnico();
+        $tecM->setNome($nome);
+        $tecM->setCpf($cpf);
+        $res = $tecnicoDAO->update($tecM, $id);
         return $res;
     }
 
-    public function excluir(int $id){
+    public static function excluir(int $id){
         $tecnicoDAO = new TecnicoDAO();
 
         $res = $tecnicoDAO->delete($id);

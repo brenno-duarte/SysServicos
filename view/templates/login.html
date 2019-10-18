@@ -14,6 +14,15 @@
                 <img src="view/_img/logo/sysservicoslogo.png" class="resp-img">
                 <form class="ui large form" action="{{ path_for('login') }}" method="POST">
                     <div class="ui stacked back2 segment">
+                        {% if msg %}
+                        <div class="row">
+                            <div class="ui negative message">
+                                <div class="header">
+                                    {{ msg }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
                         <div class="field">
                             <div class="ui left icon input">
                                 <i class="user icon"></i>

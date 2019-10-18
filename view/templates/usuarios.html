@@ -9,6 +9,33 @@
     <a href="{{ path_for('novoUsuario') }}" class="positive ui button">Novo usuário</a>
 </div>
 
+{% if msg1 %}
+<div class="ui positive message">
+    <i class="close icon"></i>
+    <div class="header">
+        {{ msg1 }}
+    </div>
+</div>
+{% endif %}
+
+{% if msg2 %}
+<div class="ui positive message">
+    <i class="close icon"></i>
+    <div class="header">
+        {{ msg2 }}
+    </div>
+</div>
+{% endif %}
+
+{% if msg3 %}
+<div class="ui positive message">
+    <i class="close icon"></i>
+    <div class="header">
+        {{ msg3 }}
+    </div>
+</div>
+{% endif %}
+
 <table class="ui celled table">
     <thead>
         <tr>
@@ -28,7 +55,7 @@
             <td>{{ u.fone }}</td>
             <td>
                 <a href="{{ path_for('alterarUsuario', {'id': u.idUsu}) }}"><i class="edit icon"></i>Editar</a>
-                <a href="{{ path_for('deletarUsuario', {'id': u.idUsu}) }}"><i class="trash icon"></i>Excluir</a>
+                <a href="{{ path_for('deletarUsuario', {'id': u.idUsu}) }}" onclick="return confirm('Tem certeza que deseja excluir este usuário?');"><i class="trash icon"></i>Excluir</a>
             </td>
         </tr>
         {% endfor %}

@@ -21,6 +21,33 @@
 </div>
 {% endif %}
 
+{% if msg1 %}
+<div class="ui positive message">
+    <i class="close icon"></i>
+    <div class="header">
+        {{ msg1 }}
+    </div>
+</div>
+{% endif %}
+
+{% if msg2 %}
+<div class="ui positive message">
+    <i class="close icon"></i>
+    <div class="header">
+        {{ msg2 }}
+    </div>
+</div>
+{% endif %}
+
+{% if msg3 %}
+<div class="ui positive message">
+    <i class="close icon"></i>
+    <div class="header">
+        {{ msg3 }}
+    </div>
+</div>
+{% endif %}
+
 <table class="ui celled table">
     <thead>
         <tr>
@@ -40,7 +67,7 @@
             <td>{{ c.fone }}</td>
             <td>
                 <a href="{{ path_for('alterarCliente', {'id': c.idCli}) }}"><i class="edit icon"></i>Editar</a>
-                <a href="{{ path_for('deletarCliente', {'id': c.idCli}) }}"><i class="trash icon"></i>Excluir</a>
+                <a href="{{ path_for('deletarCliente', {'id': c.idCli}) }}" onclick="return confirm('Tem certeza que deseja excluir este cliente?');"><i class="trash icon"></i>Excluir</a>
             </td>
         </tr>
         {% endfor %}
