@@ -31,7 +31,7 @@ $app->get('/clientes', function ($request, $response, $args) {
  * 
  */
 
-$app->get('/novoCliente', function ($request, $response, $args) {
+$app->get('/novo-cliente', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
         return $this->view->render($response, 'novo_cli.html');
@@ -41,7 +41,7 @@ $app->get('/novoCliente', function ($request, $response, $args) {
 
 })->setName('novoCliente');
 
-$app->post('/novoCliente', function ($request, $response, $args) {
+$app->post('/novo-cliente', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
 
@@ -64,7 +64,7 @@ $app->post('/novoCliente', function ($request, $response, $args) {
  * 
  */
 
-$app->get('/alterarCliente/{id}', function ($request, $response, $args) {
+$app->get('/alterar-cliente/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
 
@@ -80,7 +80,7 @@ $app->get('/alterarCliente/{id}', function ($request, $response, $args) {
 
 })->setName('alterarCliente');
 
-$app->post('/alterarCliente/{id}', function ($request, $response, $args) {
+$app->post('/alterar-cliente/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
         $nome = filter_input(INPUT_POST, 'nome');
@@ -102,7 +102,7 @@ $app->post('/alterarCliente/{id}', function ($request, $response, $args) {
  * 
  */
 
-$app->get('/deletarCliente/{id}', function ($request, $response, $args) {
+$app->get('/deletar-cliente/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
 

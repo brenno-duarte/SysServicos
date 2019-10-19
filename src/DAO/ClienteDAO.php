@@ -34,10 +34,10 @@ class ClienteDAO {
 
     public function countCliente(){
         try {
-            $sql = "SELECT count(*) FROM tb_clientes";
+            $sql = "SELECT count(*) AS qntCli FROM tb_clientes";
             $stmt = DB::prepare($sql);
             $stmt->execute();
-            $user = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
             return $user;
 
@@ -49,7 +49,7 @@ class ClienteDAO {
     public function insert(Cliente $cliente) {
 
         try {
-            $sql = "INSERT INTO tb_clientes (nome,cpf,fone) VALUES (:nome,:cpf,:fone)";
+            $sql = "INSERT INTO tb_clientes (nomeCli,cpfCli,fone) VALUES (:nome,:cpf,:fone)";
             $stmt = DB::prepare($sql);
             $stmt->bindValue(':nome', $cliente->getNome());
             $stmt->bindValue(':cpf', $cliente->getCpf());
@@ -64,7 +64,7 @@ class ClienteDAO {
     public function update(Cliente $cliente, int $id) {
 
         try {
-            $sql = "UPDATE tb_clientes SET nome = :nome,cpf = :cpf,fone = :fone WHERE idCli = $id";
+            $sql = "UPDATE tb_clientes SET nomeCli = :nome,cpfCli = :cpf,fone = :fone WHERE idCli = $id";
             $stmt = DB::prepare($sql);
             $stmt->bindValue(':nome', $cliente->getNome());
             $stmt->bindValue(':cpf', $cliente->getCpf());

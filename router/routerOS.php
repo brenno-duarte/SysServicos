@@ -3,7 +3,7 @@
 include_once PATH . '/src/Controller/OSController.php';
 include_once PATH . '/src/Model/OS.php';
 
-$app->get('/ordemDeServico', function ($request, $response, $args) {
+$app->get('/ordem-servico', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
         $os = OSController::listar();
@@ -29,10 +29,9 @@ $app->get('/ordemDeServico', function ($request, $response, $args) {
  * 
  */
 
-$app->get('/novaOrdemDeServico', function ($request, $response, $args) {
+$app->get('/nova-ordem', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
-
         $tec = TecnicoController::listar();
         $cli = ClienteController::listar();
 
@@ -46,10 +45,9 @@ $app->get('/novaOrdemDeServico', function ($request, $response, $args) {
       
 })->setName('novaOrdemDeServico');
 
-$app->post('/novaOrdemDeServico', function ($request, $response, $args) {
+$app->post('/nova-ordem', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
-
         $cliente = filter_input(INPUT_POST, 'cliente');
         $tecnico = filter_input(INPUT_POST, 'tecnico');
         $equip = filter_input(INPUT_POST, 'equip');
@@ -72,18 +70,21 @@ $app->post('/novaOrdemDeServico', function ($request, $response, $args) {
  * 
  */
 
-$app->get('/alterarOrdemDeServico/{id}', function ($request, $response, $args) {
+$app->get('/alterar-ordem/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
-
         $tec = TecnicoController::listar();  
         $cli = ClienteController::listar();
         $os = OSController::listarUnico($args['id']);
-
+        
         return $this->view->render($response, 'alterar_os.html', [
             'tec' => $tec,
             'cli' => $cli,
-            'os' => $os
+            'os' => $os,
+            'cliOS' => $os['nomeCli'],
+            'cliIdOS' => $os['idCli'],
+            'tecOS' => $os['nomeTec'],
+            'tecIdOS' => $os['idTec']
         ]);
     } else {
         return $response->withHeader('Location', 'login');
@@ -91,10 +92,9 @@ $app->get('/alterarOrdemDeServico/{id}', function ($request, $response, $args) {
       
 })->setName('alterarOrdemDeServico');
 
-$app->post('/alterarOrdemDeServico/{id}', function ($request, $response, $args) {
+$app->post('/alterar-ordem/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
-
         $cliente = filter_input(INPUT_POST, 'cliente');
         $tecnico = filter_input(INPUT_POST, 'tecnico');
         $equip = filter_input(INPUT_POST, 'equip');
@@ -117,10 +117,9 @@ $app->post('/alterarOrdemDeServico/{id}', function ($request, $response, $args) 
  * 
  */
 
-$app->get('/deletarOrdemDeServico/{id}', function ($request, $response, $args) {
+$app->get('/deletar-ordem/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
-
         OSController::excluir($args['id']);
         $this->flash->addMessage('osDel', 'Ordem de serviço deletado com sucesso');
         return $response->withRedirect($this->router->pathFor('ordemDeServico'));

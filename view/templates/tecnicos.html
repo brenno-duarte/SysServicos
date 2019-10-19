@@ -49,8 +49,8 @@
         {% for t in tec %}
         <tr>
             <td>{{ t.idTec }}</td>
-            <td>{{ t.nome }}</td>
-            <td>{{ t.cpf }}</td>
+            <td>{{ t.nomeTec }}</td>
+            <td>{{ t.cpfTec }}</td>
             <td>
                 <a href="{{ path_for('alterarTecnico', {'id': t.idTec}) }}"><i class="edit icon"></i>Editar</a>
                 <a href="{{ path_for('deletarTecnico', {'id': t.idTec}) }}" onclick="return confirm('Tem certeza que deseja excluir este cliente?');"><i class="trash icon"></i>Excluir</a>

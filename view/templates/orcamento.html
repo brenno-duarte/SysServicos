@@ -1,0 +1,50 @@
+{% extends 'menu.html' %}
+{% block content %}
+
+<div class="row">
+    <h1>Orçamento</h1>
+</div>
+
+<div class="ui search">
+    <div class="ui icon input">
+      <input class="prompt" type="text" placeholder="Pesquisar cliente...">
+      <i class="search icon"></i>
+    </div>
+    <div class="results"></div>
+</div>
+
+{% if msg %}
+<div class="ui positive message">
+    <i class="close icon"></i>
+    <div class="header">
+        {{ msg }}
+    </div>
+</div>
+{% endif %}
+
+<table class="ui celled table">
+    <thead>
+        <tr>
+            <th>ID OS</th>
+            <th>Cliente</th>
+            <th>Status</th>
+            <th>Equipamento</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for o in os %}
+        <tr>
+            <td>{{ o.idOS }}</td>
+            <td>{{ o.nomeCli }}</td>
+            <td>{{ o.situacao }}</td>
+            <td>{{ o.equip }}</td>
+            <td>
+                <a href="{{ path_for('fazerOrcamento', {'id': o.idOS}) }}" class="ui inverted green button">Selecionar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

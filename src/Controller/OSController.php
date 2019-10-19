@@ -12,10 +12,24 @@ class OSController extends OSDAO {
         return $res;
     }
 
-    public static function listarUnico($id){
+    public static function listarUnico(int $id){
         $OSDAO = new OSDAO();
 
         $res = $OSDAO->listOnly($id);
+        return $res;
+    }
+
+    public static function listarOSOrcamento(int $id){
+        $OSDAO = new OSDAO();
+
+        $res = $OSDAO->OSOrcamento($id);
+        return $res;
+    }
+
+    public static function OSPendente(){
+        $OSDAO = new OSDAO();
+
+        $res = $OSDAO->listarOSPendente();
         return $res;
     }
 
@@ -42,6 +56,14 @@ class OSController extends OSDAO {
         $osModel->setSituacao($situacao);
         $osModel->setValor($valor);
         $res = $OSDAO->update($osModel, $id);
+        return $res;
+    }
+
+    public static function alterarTotal($total, int $id){
+        $OSDAO = new OSDAO();
+        $osModel = new OS();
+        $osModel->setTotal($total);
+        $res = $OSDAO->updateTotal($osModel, $id);
         return $res;
     }
 

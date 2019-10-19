@@ -12,7 +12,7 @@ class ClienteController extends ClienteDAO {
         return $res;
     }
 
-    public function totalCli(){
+    public static function totalCli(){
         $usuarioDAO = new ClienteDAO();
 
         $res = $usuarioDAO->countCliente();

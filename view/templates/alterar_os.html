@@ -11,9 +11,11 @@
         <div class="field">
             <label>Nome do cliente</label>
             <select name="cliente" class="ui selection dropdown" required>
-                <option selected value="" class="default text">--Selecione o nome do cliente--</option>
+                {% if cliOS %}
+                    <option value="{{ cliIdOS }}">{{ cliOS }}</option>
+                {% endif %}
                 {% for c in cli %}
-                <option value="{{ c.idCli }}">{{ c.nome }}</option>
+                <option value="{{ c.idCli }}">{{ c.nomeCli }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -21,9 +23,11 @@
         <div class="field">
             <label>Técnico</label>
             <select name="tecnico" class="ui selection dropdown" required>
-                <option selected value="" class="default text">--Selecione o técnico--</option>
+                {% if tecOS %}
+                    <option value="{{ tecIdOS }}">{{ tecOS }}</option>
+                {% endif %}
                 {% for t in tec %}
-                <option value="{{ t.idTec }}">{{ t.nome }}</option>
+                <option value="{{ t.idTec }}">{{ t.nomeTec }}</option>
                 {% endfor %}
             </select>
         </div>

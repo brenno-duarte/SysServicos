@@ -62,8 +62,8 @@
         {% for c in cli %}
         <tr>
             <td>{{ c.idCli }}</td>
-            <td>{{ c.nome }}</td>
-            <td>{{ c.cpf }}</td>
+            <td>{{ c.nomeCli }}</td>
+            <td>{{ c.cpfCli }}</td>
             <td>{{ c.fone }}</td>
             <td>
                 <a href="{{ path_for('alterarCliente', {'id': c.idCli}) }}"><i class="edit icon"></i>Editar</a>

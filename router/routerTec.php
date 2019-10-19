@@ -29,7 +29,7 @@ $app->get('/tecnicos', function ($request, $response, $args) {
  * 
  */
 
-$app->get('/novoTecnico', function ($request, $response, $args) {
+$app->get('/novo-tecnico', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
         return $this->view->render($response, 'novo_tec.html');
@@ -39,7 +39,7 @@ $app->get('/novoTecnico', function ($request, $response, $args) {
     
 })->setName('novoTecnico');
 
-$app->post('/novoTecnico', function ($request, $response, $args) {
+$app->post('/novo-tecnico', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
         
@@ -61,7 +61,7 @@ $app->post('/novoTecnico', function ($request, $response, $args) {
  * 
  */
 
-$app->get('/alterarTecnico/{id}', function ($request, $response, $args) {
+$app->get('/alterar-tecnico/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
         $res = TecnicoController::listarUnico($args['id']);
@@ -75,7 +75,7 @@ $app->get('/alterarTecnico/{id}', function ($request, $response, $args) {
     
 })->setName('alterarTecnico');
 
-$app->post('/alterarTecnico/{id}', function ($request, $response, $args) {
+$app->post('/alterar-tecnico/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
         
@@ -97,7 +97,7 @@ $app->post('/alterarTecnico/{id}', function ($request, $response, $args) {
  * 
  */
 
-$app->get('/deletarTecnico/{id}', function ($request, $response, $args) {
+$app->get('/deletar-tecnico/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
 

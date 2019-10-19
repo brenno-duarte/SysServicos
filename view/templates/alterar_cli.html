@@ -8,12 +8,12 @@
 <form class="ui form inverted segment container" method="post" action="{{ path_for('alterarCliente', {'id': cli.idCli}) }}">
     <div class="field">
         <label for="nome">Nome do usuário</label>
-        <input id="nome" type="text" name="nome" value="{{ cli.nome }}" placeholder="Nome do usuário" required>
+        <input id="nome" type="text" name="nome" value="{{ cli.nomeCli }}" placeholder="Nome do usuário" required>
     </div>
     <div class="two fields">
         <div class="field">
             <label for="cpf">CPF</label>
-            <input id="cpf" type="text" name="cpf" value="{{ cli.cpf }}" placeholder="CPF" required>
+            <input id="cpf" type="text" name="cpf" value="{{ cli.cpfCli }}" placeholder="CPF" required>
         </div> 
         <div class="field">
             <label for="fone">Telefone</label>

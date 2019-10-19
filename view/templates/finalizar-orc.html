@@ -1,0 +1,38 @@
+{% extends 'menu.html' %}
+{% block content %}
+
+<div class="row">
+    <h1>Finalizar Orçamento</h1>
+</div>
+
+<form class="ui form inverted segment container" style="margin-bottom: 20px;" 
+method="POST" action="{{ path_for('finalizarOrcamentoAlt', {'id': os.idOS}) }}">
+    <div class="field">
+        <label for="nome">Nome do cliente</label>
+        <input id="nome" type="text" name="nome" value="{{ os.nomeCli }}" readonly>
+    </div>
+
+    <div class="field">
+        <label for="valor">Valor das Peças(R$)</label>
+        <input id="valor" type="text" name="valor" value="{{ pecas }}" readonly>
+    </div>
+
+    <div class="field">
+        <label for="nome">Valor do Serviço(R$)</label>
+        <input id="nome" type="text" name="nome" value="{{ servico }}" readonly>
+    </div>
+
+    <div class="field">
+        <label for="cpf">Desconto(R$)</label>
+        <input id="cpf" type="text" name="cpf" value="{{ desconto }}" readonly>
+    </div>
+
+    <div class="field">
+        <label for="cpf">Total(R$)</label>
+        <input id="cpf" type="text" name="total" value="{{ total }}" readonly>
+    </div>
+
+    <button type="submit" class="positive ui button">Salvar Orçamento</button>
+</form>
+
+{% endblock %}

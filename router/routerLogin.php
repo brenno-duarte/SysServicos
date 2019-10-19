@@ -8,10 +8,15 @@ $app->get('/', function ($request, $response, $args) {
 
 $app->get('/login', function ($request, $response, $args) {
 
-    $msg = $this->flash->getFirstMessage('erroLogin');
-    return $this->view->render($response, 'login.html', [
-        'msg' => $msg
-    ]);
+    if (!isset($_COOKIE['user'])) {
+        $msg = $this->flash->getFirstMessage('erroLogin');
+        return $this->view->render($response, 'login.html', [
+            'msg' => $msg
+        ]);
+    } else {
+        return $response->withHeader('Location', 'painel');
+    }
+
 })->setName('login');
 
 $app->post('/login', function ($request, $response, $args) {
@@ -31,21 +36,6 @@ $app->post('/login', function ($request, $response, $args) {
     }
 
 })->setName('login');
-
-$app->get('/painel', function ($request, $response, $args) {
-    
-    if ($_COOKIE['user']) {
-
-        $cliente = new ClienteController();
-        $cli = $cliente->totalCli();
-        return $this->view->render($response, 'painel.html', [
-            'cli' => $cli
-        ]);
-    } else {
-        return $response->withHeader('Location', 'login');
-    }
-
-})->setName('painel');
 
 $app->get('/logout', function ($request, $response, $args) {
     

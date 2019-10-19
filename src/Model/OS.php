@@ -8,6 +8,7 @@ class OS {
     private $defeito;
     private $tecnico;
     private $valor;
+    private $total;
 
     public function getIdCli() {
         return $this->idCli;
@@ -65,6 +66,26 @@ class OS {
     public function setValor($valor)
     {
         $this->valor = $valor;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of total
+     */ 
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
+     * Set the value of total
+     *
+     * @return  self
+     */ 
+    public function setTotal($total)
+    {
+        $this->total = $total;
 
         return $this;
     }

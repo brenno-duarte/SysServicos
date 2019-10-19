@@ -5,29 +5,55 @@
     <div class="ui statistics">
         <div class="statistic">
             <div class="value">
-            {{ cli }}
+                {{ cli.qntCli }}
             </div>
             <div class="label">
-            Faves
+                Total de clientes
             </div>
         </div>
         <div class="statistic">
             <div class="value">
-            31,200
+                31,200
             </div>
             <div class="label">
-            Views
+                Views
             </div>
         </div>
         <div class="statistic">
             <div class="value">
-            22
+                22
             </div>
             <div class="label">
-            Members
+                Members
             </div>
         </div>
     </div>
 </div>
+
+
+<table class="ui celled table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome do cliente</th>
+            <th>Equipamento</th>
+            <th>ValorR$</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for o in os %}
+        <tr>
+            <td>{{ o.idOS }}</td>
+            <td>{{ o.nomeCli }}</td>
+            <td>{{ o.equip }}</td>
+            <td>{{ o.valor }}</td>
+            <td>
+                <a href="#" class="ui inverted green button">Verificar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}

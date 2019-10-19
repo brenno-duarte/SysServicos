@@ -29,7 +29,7 @@ $app->get('/usuarios', function ($request, $response, $args) {
  * 
  */
 
-$app->get('/novoUsuario', function ($request, $response, $args) {
+$app->get('/novo-usuario', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
         return $this->view->render($response, 'novo_usu.html');
@@ -39,7 +39,7 @@ $app->get('/novoUsuario', function ($request, $response, $args) {
     
 })->setName('novoUsuario');
 
-$app->post('/novoUsuario', function ($request, $response, $args) {
+$app->post('/novo-usuario', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
         $nome = filter_input(INPUT_POST, 'nome');
@@ -63,7 +63,7 @@ $app->post('/novoUsuario', function ($request, $response, $args) {
  * 
  */
 
-$app->get('/alterarUsuario/{id}', function ($request, $response, $args) {
+$app->get('/alterar-usuario/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
         $res = UsuarioController::listarUnico($args['id']);
@@ -77,7 +77,7 @@ $app->get('/alterarUsuario/{id}', function ($request, $response, $args) {
     
 })->setName('alterarUsuario');
 
-$app->post('/alterarUsuario/{id}', function ($request, $response, $args) {
+$app->post('/alterar-usuario/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
         $nome = filter_input(INPUT_POST, 'nome');
@@ -101,7 +101,7 @@ $app->post('/alterarUsuario/{id}', function ($request, $response, $args) {
  * 
  */
 
-$app->get('/deletarUsuario/{id}', function ($request, $response, $args) {
+$app->get('/deletar-usuario/{id}', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {
 

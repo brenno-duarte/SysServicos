@@ -3,9 +3,9 @@
 class OSDAO {
 
     public function listAll() {
-        $sql = "SELECT * FROM tb_os a INNER JOIN tb_clientes b ON a.idCli=b.idCli ORDER BY b.nome";
+        $sql = "SELECT * FROM tb_os a INNER JOIN tb_clientes b ON a.idCli=b.idCli ORDER BY b.nomeCli";
 
-        $stmt = DB::prepare($sql);
+        $stmt = DB::query($sql);
         $stmt->execute();
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -13,37 +13,38 @@ class OSDAO {
     }
 
     public function listOnly(int $id) {
-        $sql = "SELECT * FROM tb_os WHERE idOS = $id";
+        $sql = "SELECT * FROM tb_os a INNER JOIN tb_clientes b 
+        INNER JOIN tb_tecnicos c ON a.idCli=b.idCli AND a.tecnico=c.idTec WHERE a.idOS = $id";
 
-        $stmt = DB::prepare($sql);
+        $stmt = DB::query($sql);
         $stmt->execute();
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $res;
     }
 
-    /*public static function listarOS2() {
-        $sql = "SELECT * FROM tb_os b INNER JOIN tb_clientes a ON a.id=b.idCli WHERE situacao LIKE 'Aguardando autorização' ORDER BY a.nome";
+    public function OSOrcamento(int $id) {
+        $sql = "SELECT * FROM tb_os a INNER JOIN tb_clientes b 
+        ON a.idCli=b.idCli WHERE a.idOS = $id";
+        $stmt = DB::query($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public static function listarOSPendente() {
+        $sql = "SELECT * FROM tb_os b INNER JOIN tb_clientes a ON a.idCli=b.idCli WHERE situacao LIKE 'Aguardando diagnóstico' ORDER BY a.nomeCli";
         $stmt = DB::prepare($sql);
         $stmt->execute();
         $resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
         return $resultados;
     }
 
-    public static function listarOS3() {
+    /*public static function listarOS3() {
         $sql = "SELECT * FROM tb_os_final a INNER JOIN tb_os b ON a.idOS=b.id";
         $stmt = DB::prepare($sql);
         $stmt->execute();
         $resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
         return $resultados;
-    }
-
-    public function listarOSOrc($id) {
-        $sql = "SELECT a.id, b.nome, a.situacao, a.equip FROM tb_os a INNER JOIN tb_clientes b ON a.idCli=b.id WHERE a.id=:id";
-        $stmt = DB::prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
     public function orcamentoTotal($id, $total) {
@@ -118,6 +119,22 @@ class OSDAO {
             $stmt->bindValue(':defeito', $os->getDefeito());
             $stmt->bindValue(':tecnico', $os->getTecnico());
             $stmt->bindValue(':valor', $os->getValor());
+            $stmt->execute();
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function updateTotal(OS $os, int $id) {
+
+        try {
+            $sql = "UPDATE tb_os SET 
+            total = :total 
+            WHERE idOS = $id";
+
+            $stmt = DB::prepare($sql);
+            $stmt->bindValue(':total', $os->getTotal());
             $stmt->execute();
 
         } catch (Exception $e) {

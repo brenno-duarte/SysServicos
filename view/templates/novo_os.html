@@ -13,7 +13,7 @@
             <select name="cliente" class="ui selection dropdown" required>
                 <option selected value="" class="default text">--Selecione o nome do cliente--</option>
                 {% for c in cli %}
-                <option value="{{ c.idCli }}">{{ c.nome }}</option>
+                <option value="{{ c.idCli }}">{{ c.nomeCli }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -23,7 +23,7 @@
             <select name="tecnico" class="ui selection dropdown" required>
                 <option selected value="" class="default text">--Selecione o técnico--</option>
                 {% for t in tec %}
-                <option value="{{ t.idTec }}">{{ t.nome }}</option>
+                <option value="{{ t.idTec }}">{{ t.nomeTec }}</option>
                 {% endfor %}
             </select>
         </div>

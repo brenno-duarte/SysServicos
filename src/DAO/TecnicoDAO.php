@@ -35,7 +35,7 @@ class TecnicoDAO {
     public function insert(Tecnico $tecnico) {
 
         try {
-            $sql = "INSERT INTO tb_tecnicos (nome, cpf) VALUES (:nome, :cpf)";
+            $sql = "INSERT INTO tb_tecnicos (nomeTec, cpfTec) VALUES (:nome, :cpf)";
             $stmt = DB::prepare($sql);
             $stmt->bindValue(':nome', $tecnico->getNome());
             $stmt->bindValue(':cpf', $tecnico->getCpf());
@@ -49,7 +49,7 @@ class TecnicoDAO {
     public function update(Tecnico $tecnico, int $id) {
 
         try {
-            $sql = "UPDATE tb_tecnicos SET nome = :nome,cpf = :cpf WHERE idTec = $id";
+            $sql = "UPDATE tb_tecnicos SET nomeTec = :nome,cpfTec = :cpf WHERE idTec = $id";
             $stmt = DB::prepare($sql);
             $stmt->bindValue(':nome', $tecnico->getNome());
             $stmt->bindValue(':cpf', $tecnico->getCpf());
