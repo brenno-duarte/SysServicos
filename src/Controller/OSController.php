@@ -59,10 +59,11 @@ class OSController extends OSDAO {
         return $res;
     }
 
-    public static function alterarTotal($total, int $id){
+    public static function alterarTotal($total, $situacao, int $id){
         $OSDAO = new OSDAO();
         $osModel = new OS();
         $osModel->setTotal($total);
+        $osModel->setSituacao($situacao);
         $res = $OSDAO->updateTotal($osModel, $id);
         return $res;
     }

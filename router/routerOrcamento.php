@@ -82,7 +82,8 @@ $app->post('/finalizar-orcamento-atualizar/{id}', function ($request, $response,
     
     if ($_COOKIE['user']) {
         $total = filter_input(INPUT_POST, 'total');
-        OSController::alterarTotal($total, $args['id']);
+        $desconto = filter_input(INPUT_POST, 'desconto');
+        OSController::alterarTotal($total, $desconto, $args['id']);
         
         $this->flash->addMessage('orcamento', 'Orçamento gerado');
         return $response->withRedirect($this->router->pathFor('orcamento'));

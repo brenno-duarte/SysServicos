@@ -1,7 +1,7 @@
 {% extends 'menu.html' %}
 {% block content %}
 
-<div class="centralizar">
+<div class="centralizar" style="margin-bottom: 20px;">
     <div class="ui statistics">
         <div class="statistic">
             <div class="value">
@@ -13,31 +13,27 @@
         </div>
         <div class="statistic">
             <div class="value">
-                31,200
+                {{ osTotal }}
             </div>
             <div class="label">
-                Views
-            </div>
-        </div>
-        <div class="statistic">
-            <div class="value">
-                22
-            </div>
-            <div class="label">
-                Members
+                Total de ordens de serviço
             </div>
         </div>
     </div>
 </div>
 
+<div class="row">
+    <h1 class="center">Ordem(ns) de serviço pendentes</h1>
+</div>
 
 <table class="ui celled table">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>ID OS</th>
             <th>Nome do cliente</th>
             <th>Equipamento</th>
             <th>ValorR$</th>
+            <th>Data da OS</th>
         </tr>
     </thead>
 
@@ -48,8 +44,9 @@
             <td>{{ o.nomeCli }}</td>
             <td>{{ o.equip }}</td>
             <td>{{ o.valor }}</td>
+            <td>{{ o.dataOs | date('d/m/Y') }}</td>
             <td>
-                <a href="#" class="ui inverted green button">Verificar</a>
+                <a href="{{ path_for('fazerOrcamento', {'id': o.idOS}) }}" class="ui inverted green button">Verificar</a>
             </td>
         </tr>
         {% endfor %}

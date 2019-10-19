@@ -26,14 +26,17 @@ class OSDAO {
     public function OSOrcamento(int $id) {
         $sql = "SELECT * FROM tb_os a INNER JOIN tb_clientes b 
         ON a.idCli=b.idCli WHERE a.idOS = $id";
+        
         $stmt = DB::query($sql);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
     public static function listarOSPendente() {
-        $sql = "SELECT * FROM tb_os b INNER JOIN tb_clientes a ON a.idCli=b.idCli WHERE situacao LIKE 'Aguardando diagnóstico' ORDER BY a.nomeCli";
-        $stmt = DB::prepare($sql);
+        $sql = "SELECT * FROM tb_os b INNER JOIN tb_clientes a ON a.idCli=b.idCli 
+        WHERE situacao LIKE 'Aguardando diagnóstico' ORDER BY a.nomeCli";
+
+        $stmt = DB::query($sql);
         $stmt->execute();
         $resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
         return $resultados;
@@ -129,11 +132,13 @@ class OSDAO {
     public function updateTotal(OS $os, int $id) {
 
         try {
-            $sql = "UPDATE tb_os SET 
+            $sql = "UPDATE tb_os SET
+            situacao = :situacao,  
             total = :total 
             WHERE idOS = $id";
 
             $stmt = DB::prepare($sql);
+            $stmt->bindValue(':situacao', $os->getSituacao());
             $stmt->bindValue(':total', $os->getTotal());
             $stmt->execute();
 
