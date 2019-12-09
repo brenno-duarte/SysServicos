@@ -4,6 +4,7 @@ class Tecnico {
 
     private $nome;
     private $cpf;
+    private $fone;
     
     public function getNome() {
         return $this->nome;
@@ -19,5 +20,25 @@ class Tecnico {
 
     public function setCpf($cpf) {
         $this->cpf = $cpf;
+    }
+
+    /**
+     * Get the value of fone
+     */ 
+    public function getFone()
+    {
+        return $this->fone;
+    }
+
+    /**
+     * Set the value of fone
+     *
+     * @return  self
+     */ 
+    public function setFone($fone)
+    {
+        $this->fone = $fone;
+
+        return $this;
     }
 }

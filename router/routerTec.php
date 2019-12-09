@@ -45,8 +45,10 @@ $app->post('/novo-tecnico', function ($request, $response, $args) {
         
         $nome = filter_input(INPUT_POST, 'nome');
         $cpf = filter_input(INPUT_POST, 'cpf');
+        $fone = filter_input(INPUT_POST, 'fone');
 
-        TecnicoController::inserir($nome, $cpf);
+        $res = TecnicoController::inserir($nome, $cpf, $fone);
+        #var_dump($res);
         $this->flash->addMessage('tecAdd', 'Técnico cadastrado com sucesso');
         return $response->withRedirect($this->router->pathFor('tecnicos'));
     } else {
@@ -81,8 +83,9 @@ $app->post('/alterar-tecnico/{id}', function ($request, $response, $args) {
         
         $nome = filter_input(INPUT_POST, 'nome');
         $cpf = filter_input(INPUT_POST, 'cpf');
+        $fone = filter_input(INPUT_POST, 'fone');
 
-        TecnicoController::alterar($nome, $cpf, $args['id']);
+        TecnicoController::alterar($nome, $cpf, $fone, $args['id']);
         $this->flash->addMessage('tecAlt', 'Técnico alterado com sucesso');
         return $response->withRedirect($this->router->pathFor('tecnicos'));
     } else {

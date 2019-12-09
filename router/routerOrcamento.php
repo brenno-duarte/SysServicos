@@ -25,6 +25,28 @@ $app->get('/orcamento', function ($request, $response, $args) {
 
 })->setName('orcamento');
 
+$app->get('/novo-orcamento', function ($request, $response, $args) {
+    
+    if ($_COOKIE['user']) {
+        $os = OSController::listarOSPendente();
+
+        $msg = $this->flash->getFirstMessage('orcamento');
+        $msg1 = $this->flash->getFirstMessage('cliAdd');
+        $msg2 = $this->flash->getFirstMessage('cliAlt');
+        $msg3 = $this->flash->getFirstMessage('cliDel');
+        return $this->view->render($response, 'novo_orcamento.html', [
+            'os' => $os,
+            'msg' => $msg,
+            'msg1' => $msg1,
+            'msg2' => $msg2,
+            'msg3' => $msg3
+        ]);
+    } else {
+        return $response->withHeader('Location', 'login');
+    }
+
+})->setName('novoOrcamento');
+
 $app->get('/pesq-orcamento', function ($request, $response, $args) {
     
     if ($_COOKIE['user']) {

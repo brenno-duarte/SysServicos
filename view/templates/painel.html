@@ -1,56 +1,63 @@
 {% extends 'menu.html' %}
 {% block content %}
 
-<div class="centralizar" style="margin-bottom: 20px;">
-    <div class="ui statistics">
-        <div class="statistic">
-            <div class="value">
-                {{ cli.qntCli }}
-            </div>
-            <div class="label">
-                Total de clientes
+<section class="ui two column grid">
+    <section class="row">
+        <div class="column">
+            <div class="centralizar" style="margin-bottom: 20px;">
+                <div class="ui statistics">
+                    <div class="statistic">
+                        <div class="value">
+                            {{ cli.qntCli }}
+                        </div>
+                        <div class="label">
+                            Total de clientes
+                        </div>
+                    </div>
+                    <div class="statistic">
+                        <div class="value">
+                            {{ osTotal }}
+                        </div>
+                        <div class="label">
+                            Total de ordens de serviço
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="statistic">
-            <div class="value">
-                {{ osTotal }}
-            </div>
-            <div class="label">
-                Total de ordens de serviço
-            </div>
+    
+        <div class="eight wide column">
+            <h1 class="center">Ordem(ns) de serviço pendentes</h1>
+    
+            <table class="ui celled table">
+                <thead>
+                    <tr>
+                        <th>ID OS</th>
+                        <th>Nome do cliente</th>
+                        <th>Equipamento</th>
+                        <th>Valor</th>
+                        <th>Data da OS</th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    {% for o in os %}
+                    <tr>
+                        <td>{{ o.idOS }}</td>
+                        <td>{{ o.nomeCli }}</td>
+                        <td>{{ o.equip }}</td>
+                        <td>R$ {{ o.valor }}</td>
+                        <td>{{ o.dataOs | date('d/m/Y') }}</td>
+                        <td>
+                            <a href="{{ path_for('fazerOrcamento', {'id': o.idOS}) }}"
+                                class="ui inverted green button">Verificar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </div>
-</div>
-
-<div class="row">
-    <h1 class="center">Ordem(ns) de serviço pendentes</h1>
-</div>
-
-<table class="ui celled table">
-    <thead>
-        <tr>
-            <th>ID OS</th>
-            <th>Nome do cliente</th>
-            <th>Equipamento</th>
-            <th>ValorR$</th>
-            <th>Data da OS</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        {% for o in os %}
-        <tr>
-            <td>{{ o.idOS }}</td>
-            <td>{{ o.nomeCli }}</td>
-            <td>{{ o.equip }}</td>
-            <td>{{ o.valor }}</td>
-            <td>{{ o.dataOs | date('d/m/Y') }}</td>
-            <td>
-                <a href="{{ path_for('fazerOrcamento', {'id': o.idOS}) }}" class="ui inverted green button">Verificar</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    </section>
+</section>
 
 {% endblock %}

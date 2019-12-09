@@ -35,10 +35,11 @@ class TecnicoDAO {
     public function insert(Tecnico $tecnico) {
 
         try {
-            $sql = "INSERT INTO tb_tecnicos (nomeTec, cpfTec) VALUES (:nome, :cpf)";
+            $sql = "INSERT INTO tb_tecnicos (nomeTec, cpfTec, foneTec) VALUES (:nomeTec, :cpfTec, :foneTec)";
             $stmt = DB::prepare($sql);
-            $stmt->bindValue(':nome', $tecnico->getNome());
-            $stmt->bindValue(':cpf', $tecnico->getCpf());
+            $stmt->bindValue(':nomeTec', $tecnico->getNome());
+            $stmt->bindValue(':cpfTec', $tecnico->getCpf());
+            $stmt->bindValue(':foneTec', $tecnico->getFone());
             return $stmt->execute();
 
         } catch (Exception $e) {
@@ -49,10 +50,16 @@ class TecnicoDAO {
     public function update(Tecnico $tecnico, int $id) {
 
         try {
-            $sql = "UPDATE tb_tecnicos SET nomeTec = :nome,cpfTec = :cpf WHERE idTec = $id";
+            $sql = "UPDATE tb_tecnicos SET 
+            nomeTec = :nomeTec,
+            cpfTec = :cpfTec,
+            foneTec = :foneTec 
+            WHERE idTec = $id";
+
             $stmt = DB::prepare($sql);
-            $stmt->bindValue(':nome', $tecnico->getNome());
-            $stmt->bindValue(':cpf', $tecnico->getCpf());
+            $stmt->bindValue(':nomeTec', $tecnico->getNome());
+            $stmt->bindValue(':cpfTec', $tecnico->getCpf());
+            $stmt->bindValue(':foneTec', $tecnico->getFone());
             return $stmt->execute();
 
         } catch (Exception $e) {

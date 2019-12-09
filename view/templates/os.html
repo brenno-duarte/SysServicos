@@ -45,7 +45,7 @@
             <th>Situação</th>
             <th>Equipamento</th>
             <th>Defeito</th>
-            <th>Valor(R$)</th>
+            <th>Valor</th>
             <th>Data da OS</th>
         </tr>
     </thead>
@@ -58,7 +58,7 @@
             <td>{{ o.situacao }}</td>
             <td>{{ o.equip }}</td>
             <td>{{ o.defeito }}</td>
-            <td>{{ o.valor }}</td>
+            <td>R$ {{ o.valor }}</td>
             <td>{{ o.dataOs | date('d/m/Y') }}</td>
             <td>
                 <a href="{{ path_for('alterarOrdemDeServico', {'id': o.idOS}) }}"><i class="edit icon"></i>Editar</a>

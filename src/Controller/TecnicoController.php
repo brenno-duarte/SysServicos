@@ -19,20 +19,22 @@ class TecnicoController extends TecnicoDAO {
         return $res;
     }
 
-    public static function inserir($nome, $cpf){
+    public static function inserir($nome, $cpf, $fone){
         $tecnicoDAO = new TecnicoDAO();
         $tecM = new Tecnico();
         $tecM->setNome($nome);
         $tecM->setCpf($cpf);
+        $tecM->setFone($fone);
         $res = $tecnicoDAO->insert($tecM);
         return $res;
     }
 
-    public static function alterar($nome, $cpf, int $id){
+    public static function alterar($nome, $cpf, $fone, int $id){
         $tecnicoDAO = new TecnicoDAO();
         $tecM = new Tecnico();
         $tecM->setNome($nome);
         $tecM->setCpf($cpf);
+        $tecM->setFone($fone);
         $res = $tecnicoDAO->update($tecM, $id);
         return $res;
     }

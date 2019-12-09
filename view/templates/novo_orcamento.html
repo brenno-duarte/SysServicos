@@ -2,11 +2,15 @@
 {% block content %}
 
 <div class="row">
-    <h1>Orçamento</h1>
+    <h1>Novo Orçamento</h1>
 </div>
 
-<div class="row">
-    <a href="{{ path_for('novoOrcamento') }}" class="positive ui button">Novo orçamento</a>
+<div class="ui search">
+    <div class="ui icon input">
+      <input class="prompt" type="text" placeholder="Pesquisar cliente...">
+      <i class="search icon"></i>
+    </div>
+    <div class="results"></div>
 </div>
 
 {% if msg %}
@@ -35,6 +39,9 @@
             <td>{{ o.nomeCli }}</td>
             <td>{{ o.situacao }}</td>
             <td>{{ o.equip }}</td>
+            <td>
+                <a href="{{ path_for('fazerOrcamento', {'id': o.idOS}) }}" class="ui inverted green button">Selecionar</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
